@@ -4,15 +4,26 @@ import Inventory from "./Inventory";
 import Pos from "./Pos";
 import Transactions from "./Transactions";
 import LiveCart from "./LiveCart";
+import {Navbar, Tabs,Tab} from "react-bootstrap";
+import Header from "./Header";
 
-const Main = () => (
+
+const Main = ({user,logout=f=>f}) => (
   <main>
-    <Switch>
-      <Route exact path="/" component={Pos} />
-      <Route path="/inventory" component={Inventory} />
-      <Route path="/transactions" component={Transactions} />
-      <Route path="/livecart" component={LiveCart} />
-    </Switch>
+    <Header user={user !== null ? true:false} logout={logout} />
+      <Tabs defaultActiveKey="Pos" id="uncontrolled-tab-example">
+        <Tab eventKey="Inventory" title="Inventory">
+          <Inventory user={user} />
+        </Tab>
+        <Tab eventKey="Pos" title="Pos">
+          <Pos />
+        </Tab>
+        <Tab eventKey="Transactions" title="Transactions" >
+          <Transactions />
+        </Tab>
+        
+      </Tabs>
+    
   </main>
 );
 

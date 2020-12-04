@@ -7,7 +7,7 @@ import RecentTransactions from "./RecentTransactions";
 import LiveTransactions from "./LiveTransactions";
 import moment from "moment";
 
-const HOST = "http://localhost:80";
+const HOST = "http://localhost:8001";
 var url = HOST + `/api/all`;
 var socket = io.connect(HOST);
 class LiveCart extends Component {

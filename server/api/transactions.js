@@ -1,7 +1,9 @@
 var app = require("express")();
 var server = require("http").Server(app);
 var bodyParser = require("body-parser");
+var moment = require("moment")
 var Datastore = require("nedb");
+
 
 var Inventory = require("./inventory");
 
@@ -21,10 +23,19 @@ app.get("/", function(req, res) {
 
 // GET all transactions
 app.get("/all", function(req, res) {
-  Transactions.find({}, function(err, docs) {
+  startDate = moment().subtract(req.query.data,'days').format("DD-MMM-YYYY ")
+  startDate = startDate + "00:00:00"
+
+  endDate = moment().subtract(req.query.data,'days').format("DD-MMM-YYYY ");
+  endDate = endDate + "23:59:59"
+  Transactions.find({date:{ $gte: startDate, $lte: endDate }}, function(err, docs) {
     res.send(docs);
   });
 });
+
+
+
+
 
 // GET all transactions
 app.get("/limit", function(req, res) {

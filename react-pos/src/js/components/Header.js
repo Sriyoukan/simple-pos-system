@@ -1,29 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {Navbar, Tabs,Tab,Button} from "react-bootstrap";
+import Inventory from "./Inventory";
+import Pos from "./Pos";
+import Transactions from "./Transactions";
+import LiveCart from "./LiveCart";
+
 
 // The Header creates links that can be used to navigate
 // between routes.
-const Header = () => (
+
+const Header = ({user,logout=f=>f}) => (
+  <Navbar bg="light" expand="lg">
   <div className="text-center">
     <h1>
       <a href="/#/">Real Time Point of Sale System</a>
+      {user?<Button type="submit" className="btn btn-success pull-right" onClick={()=>{localStorage.removeItem('currentUser');logout(null)}}>Logout</Button>:null}
     </h1>
-
-    <ul className="nav-menu">
-      <li className="lead">
-        <Link to="/inventory">Inventory</Link>
-      </li>
-      <li className="lead">
-        <Link to="/">POS</Link>
-      </li>
-      <li className="lead">
-        <Link to="/transactions">Transactions</Link>
-      </li>
-      <li className="lead">
-        <Link to="/livecart">LiveCart</Link>
-      </li>
-    </ul>
+    
   </div>
+  
+  </Navbar>
+
+  
 );
 
 export default Header;

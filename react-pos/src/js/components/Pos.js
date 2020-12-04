@@ -4,10 +4,12 @@ import Header from "./Header";
 import io from "socket.io-client";
 import axios from "axios";
 import moment from "moment";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, FormGroup, Form } from "react-bootstrap";
 import LivePos from "./LivePos";
+import TransactionDetail from './TransactionDetail'
+import PrintComponents from "react-print-components";
 
-const HOST = "http://localhost:80";
+const HOST = "http://localhost:8001";
 let socket = io.connect(HOST);
 
 class Pos extends Component {
@@ -15,6 +17,7 @@ class Pos extends Component {
     super(props);
     this.state = {
       items: [],
+      items_dublicate:[],
       quantity: 1,
       id: 0,
       addItemModal: false,
@@ -24,7 +27,8 @@ class Pos extends Component {
       total: 0,
       changeDue: 0,
       name: "",
-      price: 0
+      price: 0,
+      bar_code:""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleName = this.handleName.bind(this);
@@ -32,6 +36,9 @@ class Pos extends Component {
     this.handlePayment = this.handlePayment.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleCheckOut = this.handleCheckOut.bind(this);
+    this.handleBarCodeSubmit = this.handleBarCodeSubmit.bind(this);
+    
+
   }
   componentDidUpdate() {
     if (this.state.items.length !== 0) {
@@ -52,6 +59,32 @@ class Pos extends Component {
     items.push(currentItem);
     this.setState({ items: items });
   };
+  handleBarCodeSubmit = e => {
+    this.setState({bar_code:e.target.value})
+    axios
+    .get(HOST + `/api/inventory/product/${e.target.value}`)
+    .then(response=>{
+      if(response.data){
+        const currentItem = {
+          id: this.state.id++,
+          name: "",
+          price: 0,
+          quantity: this.state.quantity
+        };
+        currentItem.name = response.data.name
+        currentItem.price = response.data.price
+        var items = this.state.items;
+        items.push(currentItem);
+        this.setState({ items: items });
+      }
+      
+     
+    })
+    
+    
+    
+  }
+ 
   handleName = e => {
     this.setState({ name: e.target.value });
   };
@@ -66,7 +99,8 @@ class Pos extends Component {
       this.setState({ changeDue: amountDiff });
       this.setState({ receiptModal: true });
       this.handleSaveToDB();
-      this.setState({ items: [] });
+      this.setState({items_dublicate:this.state.items})
+      this.setState({ items: [] })
       socket.emit("update-live-cart", []);
     } else {
       this.setState({ changeDue: amountDiff });
@@ -110,7 +144,7 @@ class Pos extends Component {
     });
   };
   render() {
-    var { quantity, modal, items } = this.state;
+    var { quantity, modal, items,items_dublicate } = this.state;
 
     var renderAmountDue = () => {
       return (
@@ -134,12 +168,28 @@ class Pos extends Component {
       );
     };
     var renderReceipt = () => {
+      
       return (
         <Modal show={this.state.receiptModal}>
           <Modal.Header closeButton>
             <Modal.Title>Receipt</Modal.Title>
           </Modal.Header>
           <Modal.Body>
+          <div className="panel panel-primary">
+              <div className="panel-heading text-center lead">{moment().format()}</div> 
+          <table className="receipt table table-hover">
+                <thead>
+                  <tr className="small">
+                    <th> Quantity </th>
+                    <th> Product </th>
+                    <th> Price </th>
+                  </tr>
+                </thead>
+                {renderItemDetails(items_dublicate)}
+                
+                
+              </table>
+              </div>
             <h3>
               Total:
               <span className="text-danger">{this.state.totalPayment}</span>
@@ -150,9 +200,32 @@ class Pos extends Component {
             </h3>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => this.setState({ receiptModal: false })}>
-              close
-            </Button>
+          <PrintComponents
+              trigger={<Button>Print</Button>}>
+              <div className="panel panel-primary">
+                <div className="panel-heading text-center lead">{moment().format()}</div> 
+                  <table className="receipt table table-hover">
+                    <thead>
+                      <tr className="small">
+                        <th> Quantity </th>
+                        <th> Product </th>
+                        <th> Price </th>
+                      </tr>
+                    </thead>    
+                    {renderItemDetails(items_dublicate)}
+                  </table>
+                </div>
+              <h3>
+                Total:
+                <span className="text-danger">{this.state.totalPayment}</span>
+              </h3>
+              <h3>
+                Change Due:
+                <span className="text-success">{this.state.changeDue}</span>
+              </h3>             
+          </PrintComponents>
+          <Button onClick={() => {this.setState({receiptModal: false })}}>close</Button> 
+              
           </Modal.Footer>
         </Modal>
       );
@@ -160,18 +233,23 @@ class Pos extends Component {
 
     var renderLivePos = () => {
       if (items.length === 0) {
-        return <p> No products added</p>;
+        return <tr>{items}</tr>;
       } else {
         return items.map(
-          item => <LivePos {...item} onChange={this.handleChange} />,
-          this
+          item => <LivePos {...item} onChange={this.handleChange} />
+          
         );
       }
     };
 
+    var renderItemDetails = items => {
+      
+      return items.map(item => <TransactionDetail {...item} />);
+    };
+
     return (
       <div>
-        <Header />
+        
         <div className="container">
           <div className="text-center">
             <span className="lead">Total</span>
@@ -180,6 +258,9 @@ class Pos extends Component {
               ${this.state.total}
               <span />
             </span>
+            <div>
+               <input   type="text" className="form-control"  placeholder="Search" aria-label="Search"  onChange={this.handleBarCodeSubmit}/>
+            </div>
             <div>
               <button
                 className="btn btn-success lead"
@@ -198,7 +279,7 @@ class Pos extends Component {
                 u<br />
                 t
               </button>
-              <div classNameName="modal-body">
+              <div className="modal-body">
                 <Modal show={this.state.checkOutModal}>
                   <Modal.Header closeButton>
                     <Modal.Title>Checkout</Modal.Title>
@@ -238,11 +319,12 @@ class Pos extends Component {
 
                         <p className="text-danger">Enter payment amount.</p>
                         <div className="lead" />
+                        
                         <Button
                           className="btn btn-primary btn-lg lead"
                           onClick={this.handlePayment}
                         >
-                          Print Receipt
+                          Get Receipt
                         </Button>
                       </form>
                     </div>
@@ -258,12 +340,13 @@ class Pos extends Component {
               </div>
             </div>
           </div>
+          
           {renderAmountDue()}
           {renderReceipt()}
           <table className="pos table table-responsive table-striped table-hover">
             <thead>
               <tr>
-                <td colspan="6" className="text-center">
+                <td colSpan="6" className="text-center">
                   <span className="pull-left">
                     <button
                       onClick={() => this.setState({ addItemModal: true })}

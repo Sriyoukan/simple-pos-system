@@ -12,11 +12,12 @@
   "dependencies": {
     "async": "^2.6.0",
     "body-parser": "^1.18.2",
-    "express": "^4.16.2",
+    "express": "^4.17.1",
     "http": "0.0.0",
     "https": "^1.0.0",
+    "moment": "^2.29.1",
     "nedb": "^1.8.0",
-    "nodemon": "^1.14.12",
+    "nodemon": "^1.19.4",
     "path": "^0.12.7",
     "socket.io": "^2.0.4"
   }

@@ -3,9 +3,10 @@ import "./App.css";
 import Header from "./Header";
 import Product from "./Product";
 import axios from "axios";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button ,Table} from "react-bootstrap";
 
-const HOST = "http://localhost:80";
+
+const HOST = "http://localhost:8001";
 
 class Inventory extends Component {
   constructor(props) {
@@ -17,11 +18,15 @@ class Inventory extends Component {
       name: "",
       snackMessage: "",
       quantity: "",
-      price: ""
+      price: "",
+      actualPrice:"",
+      bar_code:""
     };
     this.handleNewProduct = this.handleNewProduct.bind(this);
     this.handleName = this.handleName.bind(this);
+    this.handleBarCode = this.handleBarCode.bind(this)
     this.handlePrice = this.handlePrice.bind(this);
+    this.handleActualPrice = this.handleActualPrice.bind(this);
     this.handleQuantity = this.handleQuantity.bind(this);
     this.handleSnackbar = this.handleSnackbar.bind(this);
   }
@@ -36,8 +41,10 @@ class Inventory extends Component {
     this.setState({ productFormModal: false });
     var newProduct = {
       name: this.state.name,
+      bar_code: this.state.bar_code,
       quantity: this.state.quantity,
-      price: this.state.price
+      price: this.state.price,
+      actualPrice:this.state.actualPrice
     };
 
     axios
@@ -45,12 +52,14 @@ class Inventory extends Component {
       .then(
         response =>
           this.setState({ snackMessage: "Product Added Successfully!" }),
+          this.componentWillMount(),
         this.handleSnackbar()
       )
       .catch(err => {
         console.log(err),
           this.setState({ snackMessage: "Product failed to save" }),
           this.handleSnackbar();
+
       });
   };
   handleEditProduct = editProduct => {
@@ -78,6 +87,12 @@ class Inventory extends Component {
   handleQuantity = e => {
     this.setState({ quantity: e.target.value });
   };
+  handleBarCode = e => {
+    this.setState({ bar_code: e.target.value });
+  };
+  handleActualPrice = e => {
+    this.setState({ actualPrice: e.target.value });
+  };
   handleSnackbar = () => {
     var bar = document.getElementById("snackbar");
     bar.className = "show";
@@ -88,42 +103,45 @@ class Inventory extends Component {
 
   render() {
     var { products, snackMessage } = this.state;
+    var user = this.props.user
 
     var renderProducts = () => {
       if (products.length === 0) {
-        return <p>{products}</p>;
+        return <tr>{products}</tr>;
       } else {
         return products.map(product => (
-          <Product {...product} onEditProduct={this.handleEditProduct} />
+          <Product {...product} user={user} onEditProduct={this.handleEditProduct} />
         ));
       }
     };
 
     return (
       <div>
-        <Header />
+        
 
-        <div class="container">
+        <div className="container">
           <a
-            class="btn btn-success pull-right"
+            className="btn btn-success pull-right"
             onClick={() => this.setState({ productFormModal: true })}
           >
-            <i class="glyphicon glyphicon-plus" /> Add New Item
+            <i className="glyphicon glyphicon-plus" /> Add New Item
           </a>
           <br />
           <br />
 
-          <table class="table">
-            <thead>
+          <Table striped bordered hover>
+            <thead className="thead-dark">
               <tr>
                 <th scope="col">Name</th>
+                <th scope="col">Bar_code</th>
                 <th scope="col">Price</th>
+                <th scope="col">Actual_Price</th>
                 <th scope="col">Quantity on Hand</th>
                 <th />
               </tr>
             </thead>
             <tbody>{renderProducts()}</tbody>
-          </table>
+          </Table>
         </div>
 
         <Modal show={this.state.productFormModal}>
@@ -131,42 +149,43 @@ class Inventory extends Component {
             <Modal.Title>Add Product</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form class="form-horizontal" name="newProductForm">
-              <div class="form-group">
-                <label class="col-md-4 control-label" for="barcode">
+            <form className="form-horizontal" name="newProductForm">
+              <div className="form-group">
+                <label className="col-md-4 control-label" for="barcode">
                   Barcode
                 </label>
-                <div class="col-md-4">
+                <div className="col-md-4">
                   <input
                     id="barcode"
                     name="barcode"
                     placeholder="Barcode"
-                    class="form-control"
+                    className="form-control"
+                    onChange={this.handleBarCode}
                   />
                 </div>
               </div>
-              <div class="form-group">
-                <label class="col-md-4 control-label" for="name">
+              <div className="form-group">
+                <label className="col-md-4 control-label" for="name">
                   Name
                 </label>
-                <div class="col-md-4">
+                <div className="col-md-4">
                   <input
                     name="name"
                     placeholder="Name"
-                    class="form-control"
+                    className="form-control"
                     onChange={this.handleName}
                   />
                 </div>
               </div>
-              <div class="form-group">
-                <label class="col-md-4 control-label" for="price">
+              <div className="form-group">
+                <label className="col-md-4 control-label" for="price">
                   Price
                 </label>
-                <div class="col-md-4">
+                <div className="col-md-4">
                   <input
                     name="price"
                     placeholder="Price"
-                    class="form-control"
+                    className="form-control"
                     onChange={this.handlePrice}
                     type="number"
                     step="any"
@@ -174,24 +193,40 @@ class Inventory extends Component {
                   />
                 </div>
               </div>
-              <div class="form-group">
-                <label class="col-md-4 control-label" for="quantity_on_hand">
+              <div className="form-group">
+                <label className="col-md-4 control-label" for="actualPrice">
+                  Actual_Price
+                </label>
+                <div className="col-md-4">
+                  <input
+                    name="actualPrice"
+                    placeholder="ActualPrice"
+                    className="form-control"
+                    onChange={this.handleActualPrice}
+                    type="number"
+                    step="any"
+                    min="0"
+                  />
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="col-md-4 control-label" for="quantity_on_hand">
                   Quantity On Hand
                 </label>
-                <div class="col-md-4">
+                <div className="col-md-4">
                   <input
                     name="quantity_on_hand"
                     placeholder="Quantity On Hand"
                     onChange={this.handleQuantity}
-                    class="form-control"
+                    className="form-control"
                   />
                 </div>
               </div>
-              <div class="form-group">
-                <label class="col-md-4 control-label" for="image">
+              <div className="form-group">
+                <label className="col-md-4 control-label" for="image">
                   Upload Image
                 </label>
-                <div class="col-md-4">
+                <div className="col-md-4">
                   <input type="file" name="image" />
                 </div>
               </div>
