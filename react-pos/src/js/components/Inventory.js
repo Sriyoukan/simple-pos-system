@@ -22,6 +22,7 @@ class Inventory extends Component {
       actualPrice:"",
       bar_code:""
     };
+    this.componentWillMount=this.componentWillMount.bind(this);
     this.handleNewProduct = this.handleNewProduct.bind(this);
     this.handleName = this.handleName.bind(this);
     this.handleBarCode = this.handleBarCode.bind(this)
@@ -102,6 +103,7 @@ class Inventory extends Component {
   };
 
   render() {
+    
     var { products, snackMessage } = this.state;
     var user = this.props.user
 
@@ -119,13 +121,20 @@ class Inventory extends Component {
       <div>
         
 
-        <div className="container">
+        <div className="container" style={{paddingTop:5}}>
           <a
             className="btn btn-success pull-right"
             onClick={() => this.setState({ productFormModal: true })}
           >
             <i className="glyphicon glyphicon-plus" /> Add New Item
           </a>
+          <a
+            className="btn btn-success pull-left"
+            onClick={() => window.location.reload()}
+          >
+            Refresh
+          </a>
+          
           <br />
           <br />
 

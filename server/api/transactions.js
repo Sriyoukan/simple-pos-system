@@ -115,8 +115,9 @@ app.post("/new", function(req, res) {
   Transactions.insert(newTransaction, function(err, transaction) {
     if (err) res.status(500).send(err);
     else {
+      Inventory.decrementInventory(transaction.items);
       res.sendStatus(200);
-      Inventory.decrementInventory(transaction.products);
+      
     }
   });
 });
@@ -127,3 +128,14 @@ app.get("/:transactionId", function(req, res) {
     if (doc) res.send(doc[0]);
   });
 });
+
+app.delete("/:id",(req,res)=>{
+  Transactions.remove({_id:req.params.id},(err,data)=>{
+    if(err){
+      return err;
+    }else{
+      res.status(200)
+    }
+    
+  })
+})

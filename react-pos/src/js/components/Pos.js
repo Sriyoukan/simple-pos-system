@@ -8,6 +8,7 @@ import { Modal, Button, FormGroup, Form } from "react-bootstrap";
 import LivePos from "./LivePos";
 import TransactionDetail from './TransactionDetail'
 import PrintComponents from "react-print-components";
+import { isWidthDown } from "@material-ui/core";
 
 const HOST = "http://localhost:8001";
 let socket = io.connect(HOST);
@@ -59,23 +60,26 @@ class Pos extends Component {
     items.push(currentItem);
     this.setState({ items: items });
   };
-  handleBarCodeSubmit = e => {
-    this.setState({bar_code:e.target.value})
+  handleBarCodeSubmit = () => {
     axios
-    .get(HOST + `/api/inventory/product/${e.target.value}`)
+    .get(HOST + `/api/inventory/product/${this.state.bar_code}`)
     .then(response=>{
       if(response.data){
         const currentItem = {
-          id: this.state.id++,
+          _id:"",
           name: "",
           price: 0,
+          actualPrice:0,
           quantity: this.state.quantity
         };
+        currentItem.actualPrice = response.data.actualPrice
+        currentItem._id = response.data._id
         currentItem.name = response.data.name
         currentItem.price = response.data.price
         var items = this.state.items;
         items.push(currentItem);
         this.setState({ items: items });
+        this.setState({bar_code:""})
       }
       
      
@@ -259,9 +263,12 @@ class Pos extends Component {
               <span />
             </span>
             <div>
-               <input   type="text" className="form-control"  placeholder="Search" aria-label="Search"  onChange={this.handleBarCodeSubmit}/>
+              <input   type="text" value={this.state.bar_code} className="form-control" style={{width:500,display:"inline"}}  placeholder="Search" aria-label="Search"  onChange={event =>this.setState({bar_code:event.target.value})} />
+              <button type="submit" className="btn btn-success" style={{marginBottom:3}} onClick={this.handleBarCodeSubmit}>Enter</button>
             </div>
+            
             <div>
+            
               <button
                 className="btn btn-success lead"
                 id="checkoutButton"

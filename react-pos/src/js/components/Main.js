@@ -5,13 +5,15 @@ import Pos from "./Pos";
 import Transactions from "./Transactions";
 import LiveCart from "./LiveCart";
 import {Navbar, Tabs,Tab} from "react-bootstrap";
+import RegisterUser from "./RegisterUser";
+
 import Header from "./Header";
 
 
 const Main = ({user,logout=f=>f}) => (
   <main>
-    <Header user={user !== null ? true:false} logout={logout} />
-      <Tabs defaultActiveKey="Pos" id="uncontrolled-tab-example">
+    <Header user={user !== null ? user:null} logout={logout} />
+      <Tabs  defaultActiveKey="Pos" id="uncontrolled-tab-example">
         <Tab eventKey="Inventory" title="Inventory">
           <Inventory user={user} />
         </Tab>
@@ -21,6 +23,9 @@ const Main = ({user,logout=f=>f}) => (
         <Tab eventKey="Transactions" title="Transactions" >
           <Transactions />
         </Tab>
+        {user?user.userType=='owner'?<Tab eventKey="RegisterUser" title="RegisterUser" >
+          <RegisterUser />
+        </Tab>:null:null}
         
       </Tabs>
     

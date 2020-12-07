@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {Link} from 'react-router-dom';
-
 import "./App.css";
 import Header from "./Header";
 import CompleteTransactions from "./CompleteTransactions";
@@ -13,7 +12,7 @@ import {TabPane} from 'react-bootstrap'
 import {Row} from 'react-bootstrap'
 import {Col} from 'react-bootstrap'
 import {Nav,NavItem} from 'react-bootstrap'
-
+import Chip from '@material-ui/core/Chip';
 import VerticalTabs from './VerticalTabs';
 
 
@@ -29,6 +28,8 @@ class Transactions extends Component {
     super(props);
     this.state = { 
       transactions: [],
+      total:0,
+      actualTotal:0,
       
       
 
@@ -42,6 +43,8 @@ class Transactions extends Component {
      this.handleDateTransaction4 = this.handleDateTransaction4.bind(this)
      this.handleDateTransaction5 = this.handleDateTransaction5.bind(this)
      this.handleDateTransaction6 = this.handleDateTransaction6.bind(this)
+     this.removeFromList = this.removeFromList.bind(this)
+     this.handleTransactions = this.handleTransactions.bind(this)
 
      for(var i=0;i<7;i++) {
         this.state.dates.push(moment().subtract(i,'days').format("DD-MMM-YYYY "))
@@ -66,6 +69,9 @@ class Transactions extends Component {
       .catch(err => {
         console.log(err);
       });
+      this.setState({total:0})
+      this.setState({actualTotal:0})
+      
     
   }
   handleDateTransaction1 = () =>{
@@ -76,6 +82,9 @@ class Transactions extends Component {
       .catch(err => {
         console.log(err);
       });
+      this.setState({total:0})
+      this.setState({actualTotal:0})
+
   }
   handleDateTransaction2 = () =>{
     axios
@@ -85,6 +94,9 @@ class Transactions extends Component {
       .catch(err => {
         console.log(err);
       });
+      this.setState({total:0})
+      this.setState({actualTotal:0})
+
   }
   handleDateTransaction3 = () =>{
     axios
@@ -94,6 +106,9 @@ class Transactions extends Component {
       .catch(err => {
         console.log(err);
       });
+      this.setState({total:0})
+      this.setState({actualTotal:0})
+
   }
   handleDateTransaction4 = () =>{
     axios
@@ -103,6 +118,9 @@ class Transactions extends Component {
       .catch(err => {
         console.log(err);
       });
+      this.setState({total:0})
+      this.setState({actualTotal:0})
+
   }
   handleDateTransaction5 = () =>{
     axios
@@ -112,6 +130,9 @@ class Transactions extends Component {
       .catch(err => {
         console.log(err);
       });
+      this.setState({total:0})
+      this.setState({actualTotal:0})
+
   }
   handleDateTransaction6 = () =>{
     axios
@@ -121,11 +142,35 @@ class Transactions extends Component {
       .catch(err => {
         console.log(err);
       });
+      this.setState({total:0})
+      this.setState({actualTotal:0})
+
   }
+  handleTransactions=()=>{
+    if(this.state.transactions.length!==0){
+      var actualTotal=0
+      var total = 0
+      this.state.transactions.map((transaction)=>{
+        transaction.items.map((item)=>{
+          actualTotal = actualTotal+ item.actualPrice*item.quantity
+        })
+        total = total+ transaction.total
+      })
+      this.setState({total:total})
+      this.setState({actualTotal:actualTotal})
+    }
+  }
+  removeFromList = (id)=>{
+    var oldTransactions = this.state.transactions
+    var newTransactions = oldTransactions.filter(value=>value._id != id)
+    this.setState({transactions:newTransactions})
+  }
+  
   
   
   render() {
     var { transactions } = this.state;
+    
     
 
     var rendertransactions = () => {
@@ -133,17 +178,19 @@ class Transactions extends Component {
         return <p>No Transactions found</p>;
       } else {
         return transactions.map(transaction => (
-          <CompleteTransactions {...transaction} />
+          <CompleteTransactions {...transaction} removeFromList={this.removeFromList}  />
         ));
       }
     };
    
     return (
       
+      
 
       <div>
         
-        <TabContainer id="left-tabs-example" defaultActiveKey="first">
+        <TabContainer id="left-tabs-example" defaultActiveKey={moment().format("DD-MMM-YYYY ")}>
+          
           <Row>
             <Col sm={3}>
               <Nav variant="pills" className="flex-column">
@@ -157,6 +204,13 @@ class Transactions extends Component {
                     <NavItem eventKey={moment().subtract(6,'days').format("DD-MMM-YYYY ")} onClick={this.handleDateTransaction6} >{moment().subtract(6,'days').format("DD-MMM-YYYY ")}</NavItem>
                   
               </Nav>
+                <button className="btn btn-success" style={{paddingTop:5}} onClick={this.handleTransactions}>Show Total</button>
+                <div>
+                <h1>Total :  {this.state.total}</h1>
+                <h1>ActualTotal :  {this.state.actualTotal}</h1>
+  
+                </div>
+                
             </Col>
             <Col sm={9}>
               <TabContent>
@@ -168,6 +222,7 @@ class Transactions extends Component {
                         <th>Total</th>
                         <th>Products</th>
                         <th>Open</th>
+                        <th>Delete</th>
                       </tr>
                     </thead>
                     <tbody>{rendertransactions()}</tbody>

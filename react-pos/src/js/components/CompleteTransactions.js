@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Modal, Button } from "react-bootstrap";
 import TransactionDetail from "./TransactionDetail";
+import axios from "axios";
+
 class CompleteTransactions extends Component {
   constructor(props) {
     super(props);
@@ -9,10 +11,16 @@ class CompleteTransactions extends Component {
       totalquantity: 0,
       items: []
     };
+    this.deleteTransaction = this.deleteTransaction.bind(this)
+  }
+  async deleteTransaction(id){
+    const removeFromList = this.props.removeFromList
+    var response =axios.delete(`http://localhost:8001/api/${id}`)
+    removeFromList(id)
   }
 
   render() {
-    var { date, total, items } = this.props;
+    var { date, total, items,_id } = this.props;
     var renderQuantity = items => {
       var totalquantity = 0;
       for (var i = 0; i < items.length; i++) {
@@ -37,6 +45,14 @@ class CompleteTransactions extends Component {
             onClick={() => this.setState({ transactionModal: true })}
           >
             <i className="glyphicon glyphicon-new-window" />
+          </a>
+        </td>
+        <td>
+          <a
+            className="btn btn-info"
+            onClick={()=>{this.deleteTransaction(_id)}}
+          >
+            <i className="glyphicon glyphicon-remove-sign" />
           </a>
         </td>
 

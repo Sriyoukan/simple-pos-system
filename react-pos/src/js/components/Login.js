@@ -54,7 +54,7 @@ export default function Login({authUser=f=>f}) {
             onChange={(e) => setPassword(e.target.value)}
           />
         </FormGroup>
-        <Button block size="lg" type="submit" disabled={!validateForm()} onClick={handleSubmit}>
+        <Button className="btn btn-success pull-right" size="lg" type="submit" disabled={!validateForm()} onClick={handleSubmit}>
           Login
         </Button>
       </Form>
