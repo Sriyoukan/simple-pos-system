@@ -39,3 +39,6 @@
 {"$$deleted":true,"_id":"SW9uFRinHvVg7fbz"}
 {"$$deleted":true,"_id":"8TanoCVOHfKkMnID"}
 {"date":"07-Dec-2020 17:42:54","total":120,"items":[{"_id":"Z4WAisi1P92OEDou","name":"Xiaomi Redmi Note 5a Prime","price":"120","actualPrice":"90","quantity":1}],"_id":"uak0ErwaHcDG79Pw"}
+{"date":"07-Dec-2020 17:50:10","total":120,"items":[{"_id":"Z4WAisi1P92OEDou","name":"Xiaomi Redmi Note 5a Prime","price":"120","actualPrice":"90","quantity":1}],"_id":"IgJg5P9ZWqlFddsi"}
+{"date":"07-Dec-2020 19:32:38","total":243,"items":[{"id":2,"_id":"Z4WAisi1P92OEDou","name":"Xiaomi Redmi Note 5a Prime","price":"120","actualPrice":"90","quantity":1},{"id":3,"_id":"6yLtKUendcmH0LwV","name":"160605P","price":"123","actualPrice":"12","quantity":1}],"_id":"27MEtla3y5cpsbuP"}
+{"date":"07-Dec-2020 19:33:20","total":240,"items":[{"id":4,"_id":"Z4WAisi1P92OEDou","name":"Xiaomi Redmi Note 5a Prime","price":"120","actualPrice":"90","quantity":1},{"id":5,"_id":"Z4WAisi1P92OEDou","name":"Xiaomi Redmi Note 5a Prime","price":"120","actualPrice":"90","quantity":1}],"_id":"1x42idaLsfMsQ0B9"}

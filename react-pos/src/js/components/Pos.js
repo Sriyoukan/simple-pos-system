@@ -38,8 +38,7 @@ class Pos extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleCheckOut = this.handleCheckOut.bind(this);
     this.handleBarCodeSubmit = this.handleBarCodeSubmit.bind(this);
-    this.handleKeypress = this.handleKeypress.bind(this) 
-    
+    this.keyPressed = this.keyPressed.bind(this);
 
   }
   componentDidUpdate() {
@@ -67,6 +66,7 @@ class Pos extends Component {
     .then(response=>{
       if(response.data){
         const currentItem = {
+          id:this.state.id++,
           _id:"",
           name: "",
           price: 0,
@@ -148,14 +148,13 @@ class Pos extends Component {
       console.log(err);
     });
   };
-
-  handleKeypress = e => {
-    //it triggers by pressing the enter key
-    if (e.keyCode === 13) {
-      this.handleBarCodeSubmit();
-
+  keyPressed(event) {
+    if (event.key === "Enter") {
+      this.handleBarCodeSubmit()
+    }
   }
-};
+
+  
   render() {
     var { quantity, modal, items,items_dublicate } = this.state;
 
@@ -274,8 +273,10 @@ class Pos extends Component {
               <span />
             </span>
             <div>
-              <input   type="text" id="myInput" value={this.state.bar_code} className="form-control" style={{width:500,display:"inline"}}  placeholder="Search" aria-label="Search" onKeyPress={this.handleKeypress} onChange={event =>this.setState({bar_code:event.target.value})} />
+              
+              <input   type="text" id="myInput" value={this.state.bar_code} className="form-control" style={{width:500,display:"inline"}}  placeholder="Search" aria-label="Search" onChange={event =>this.setState({bar_code:event.target.value})} onKeyPress={this.keyPressed} />
               <button type="submit" id="myButton" className="btn btn-success" style={{marginBottom:3}} onClick={this.handleBarCodeSubmit}>Enter</button>
+              
             </div>
             
             <div>

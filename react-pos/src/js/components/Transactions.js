@@ -51,7 +51,10 @@ class Transactions extends Component {
     axios
       .get(url)
       .then(response => {
-        this.setState({ transactions: response.data })})
+        this.setState({ transactions: response.data })
+        this.handleTransactions(response.data)
+
+      })
       .catch(err => {
         console.log(err);
       });

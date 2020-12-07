@@ -122,12 +122,12 @@ class Inventory extends Component {
         
 
         <div className="container" style={{paddingTop:5}}>
-          <a
+          {user?user.userType=='owner'?<a
             className="btn btn-success pull-right"
             onClick={() => this.setState({ productFormModal: true })}
           >
             <i className="glyphicon glyphicon-plus" /> Add New Item
-          </a>
+          </a>:null:null}
           <a
             className="btn btn-success pull-left"
             onClick={() => window.location.reload()}
