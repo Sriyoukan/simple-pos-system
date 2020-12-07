@@ -30,9 +30,6 @@ class Transactions extends Component {
       transactions: [],
       total:0,
       actualTotal:0,
-      
-      
-
       dates:[],
       dateIndex:0
      };
@@ -59,18 +56,23 @@ class Transactions extends Component {
         console.log(err);
       });
 
+
    
   }
   handleDateTransaction0 = () =>{
     axios
       .get(url,{params:{data:0}})
       .then(response => {
-        this.setState({ transactions: response.data })})
+        this.setState({ transactions: response.data })
+        this.handleTransactions(response.data)
+      
+      })
+        
       .catch(err => {
         console.log(err);
       });
-      this.setState({total:0})
-      this.setState({actualTotal:0})
+      
+      
       
     
   }
@@ -78,79 +80,92 @@ class Transactions extends Component {
     axios
       .get(url,{params:{data:1}})
       .then(response => {
-        this.setState({ transactions: response.data })})
+        this.setState({ transactions: response.data })
+        this.handleTransactions(response.data)
+
+      })
       .catch(err => {
         console.log(err);
       });
-      this.setState({total:0})
-      this.setState({actualTotal:0})
+       
 
   }
   handleDateTransaction2 = () =>{
     axios
       .get(url,{params:{data:2}})
       .then(response => {
-        this.setState({ transactions: response.data })})
+        this.setState({ transactions: response.data })
+        this.handleTransactions(response.data)
+      })
+        
       .catch(err => {
         console.log(err);
       });
-      this.setState({total:0})
-      this.setState({actualTotal:0})
+       
 
   }
   handleDateTransaction3 = () =>{
     axios
       .get(url,{params:{data:3}})
       .then(response => {
-        this.setState({ transactions: response.data })})
+        this.setState({ transactions: response.data })
+        this.handleTransactions(response.data)
+      })
+        
       .catch(err => {
         console.log(err);
       });
-      this.setState({total:0})
-      this.setState({actualTotal:0})
+      
 
   }
   handleDateTransaction4 = () =>{
     axios
       .get(url,{params:{data:4}})
       .then(response => {
-        this.setState({ transactions: response.data })})
+        this.setState({ transactions: response.data })
+        this.handleTransactions(response.data)
+      })
+        
       .catch(err => {
         console.log(err);
       });
-      this.setState({total:0})
-      this.setState({actualTotal:0})
+      
 
   }
   handleDateTransaction5 = () =>{
     axios
       .get(url,{params:{data:5}})
       .then(response => {
-        this.setState({ transactions: response.data })})
+        this.setState({ transactions: response.data })
+        this.handleTransactions(response.data)
+      })
+        
       .catch(err => {
         console.log(err);
       });
-      this.setState({total:0})
-      this.setState({actualTotal:0})
+      
 
   }
   handleDateTransaction6 = () =>{
     axios
       .get(url,{params:{data:6}})
       .then(response => {
-        this.setState({ transactions: response.data })})
+        this.setState({ transactions: response.data })
+        this.handleTransactions(response.data)
+      })
+        
       .catch(err => {
         console.log(err);
       });
-      this.setState({total:0})
-      this.setState({actualTotal:0})
+      
 
   }
-  handleTransactions=()=>{
-    if(this.state.transactions.length!==0){
+  handleTransactions=(transactions)=>{
+    var transactionNew = transactions
+    if(transactionNew.length!==0){
       var actualTotal=0
       var total = 0
-      this.state.transactions.map((transaction)=>{
+      transactionNew.map((transaction)=>{
         transaction.items.map((item)=>{
           actualTotal = actualTotal+ item.actualPrice*item.quantity
         })
@@ -158,13 +173,20 @@ class Transactions extends Component {
       })
       this.setState({total:total})
       this.setState({actualTotal:actualTotal})
+      
+    }else{
+      this.setState({total:0})
+      this.setState({actualTotal:0})
     }
   }
   removeFromList = (id)=>{
     var oldTransactions = this.state.transactions
     var newTransactions = oldTransactions.filter(value=>value._id != id)
     this.setState({transactions:newTransactions})
+    return newTransactions
   }
+
+  
   
   
   
@@ -178,7 +200,7 @@ class Transactions extends Component {
         return <p>No Transactions found</p>;
       } else {
         return transactions.map(transaction => (
-          <CompleteTransactions {...transaction} removeFromList={this.removeFromList}  />
+          <CompleteTransactions {...transaction} removeFromList={this.removeFromList} handleTransactions={this.handleTransactions} />
         ));
       }
     };
@@ -204,11 +226,10 @@ class Transactions extends Component {
                     <NavItem eventKey={moment().subtract(6,'days').format("DD-MMM-YYYY ")} onClick={this.handleDateTransaction6} >{moment().subtract(6,'days').format("DD-MMM-YYYY ")}</NavItem>
                   
               </Nav>
-                <button className="btn btn-success" style={{paddingTop:5}} onClick={this.handleTransactions}>Show Total</button>
+                
                 <div>
-                <h1>Total :  {this.state.total}</h1>
-                <h1>ActualTotal :  {this.state.actualTotal}</h1>
-  
+                  <h1>Total :  {this.state.total}</h1>
+                  <h1>ActualTotal :  {this.state.actualTotal}</h1>
                 </div>
                 
             </Col>

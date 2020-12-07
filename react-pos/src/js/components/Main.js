@@ -13,7 +13,7 @@ import Header from "./Header";
 const Main = ({user,logout=f=>f}) => (
   <main>
     <Header user={user !== null ? user:null} logout={logout} />
-      <Tabs  defaultActiveKey="Pos" id="uncontrolled-tab-example">
+      <Tabs  defaultActiveKey="Inventory" id="uncontrolled-tab-example">
         <Tab eventKey="Inventory" title="Inventory">
           <Inventory user={user} />
         </Tab>

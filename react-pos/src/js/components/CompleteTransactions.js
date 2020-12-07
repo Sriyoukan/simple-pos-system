@@ -16,7 +16,9 @@ class CompleteTransactions extends Component {
   async deleteTransaction(id){
     const removeFromList = this.props.removeFromList
     var response =axios.delete(`http://localhost:8001/api/${id}`)
-    removeFromList(id)
+    var newTransactions = removeFromList(id)
+    const handleTransaction = this.props.handleTransactions
+    handleTransaction(newTransactions)
   }
 
   render() {

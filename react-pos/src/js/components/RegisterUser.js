@@ -30,6 +30,13 @@ export default function RegisterUser(){
         response?setSuccessModal(true):false
 
       }
+      const handleKeypress = e => {
+        //it triggers by pressing the enter key
+        if (e.keyCode === 13) {
+          handleSubmit();
+
+      }
+    };
 
       return(
         <div style={{paddingLeft:30,paddingRight:30,paddingTop:100,width:500}}>
@@ -49,7 +56,7 @@ export default function RegisterUser(){
             </Button>
           </Modal.Footer>
         </Modal>
-        <Form onSubmit={handleSubmit}>
+        <Form>
         <FormGroup controlId="email" size="lg">
           <lable>username</lable>
           <FormControl
@@ -57,6 +64,7 @@ export default function RegisterUser(){
             type="text"
             value={username}
             onChange={(e)=>setUsername(e.target.value)}
+            
           />
         </FormGroup>
         <FormGroup controlId="password" size="lg">
@@ -65,6 +73,7 @@ export default function RegisterUser(){
             type="password"
             value={password}
             onChange={(e)=>setPassword(e.target.value)}
+            
           />
         </FormGroup>
         <Button
@@ -72,6 +81,8 @@ export default function RegisterUser(){
           size="lg"
           type="submit"
           disabled={!validateForm()}
+          onClick={handleSubmit}
+          
           
         >
           Signup
