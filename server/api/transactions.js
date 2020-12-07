@@ -130,12 +130,30 @@ app.get("/:transactionId", function(req, res) {
 });
 
 app.delete("/:id",(req,res)=>{
-  Transactions.remove({_id:req.params.id},(err,data)=>{
-    if(err){
-      return err;
-    }else{
-      res.status(200)
-    }
-    
+ let Promise1 = new Promise((resolve, reject)=>{
+    Transactions.findOne({ _id: req.params.id }, function(err, doc) {
+      if (doc){
+        resolve(doc)
+        
+      }
+    })
   })
+  
+  Promise1.then((result=>{
+    Inventory.incrementInventory(result.items);
+  }));
+
+  Promise1.then((result)=>{
+    console.log(result)
+    Transactions.remove({_id:result._id},(err,data)=>{
+      if(err){
+        return err;
+      }else{
+        res.status(200)
+      }
+      
+    })
+  }); 
+  
+  
 })

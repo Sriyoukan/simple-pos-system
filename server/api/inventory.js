@@ -98,3 +98,24 @@ app.decrementInventory = function(products) {
     });
   });
 };
+app.incrementInventory = function(products) {
+  
+  async.eachSeries(products, function(transactionProduct, callback) {
+    inventoryDB.findOne({ _id: transactionProduct._id }, function(err,product) {
+      // catch manually added items (don't exist in inventory)
+      
+      if (!product) {
+        callback();
+      } else {
+        var updatedQuantity =parseInt(product.quantity)+parseInt(transactionProduct.quantity);
+        
+        inventoryDB.update(
+          { _id: product._id },
+          { $set: { quantity: updatedQuantity } },
+          {},
+          callback
+        );
+      }
+    });
+  });
+};

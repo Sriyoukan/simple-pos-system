@@ -39,6 +39,7 @@ class Pos extends Component {
     this.handleCheckOut = this.handleCheckOut.bind(this);
     this.handleBarCodeSubmit = this.handleBarCodeSubmit.bind(this);
     this.keyPressed = this.keyPressed.bind(this);
+    this.checkoutKey = this.checkoutKey.bind(this);
 
   }
   componentDidUpdate() {
@@ -96,7 +97,8 @@ class Pos extends Component {
   handlePrice = e => {
     this.setState({ price: e.target.value });
   };
-  handlePayment = () => {
+  handlePayment = (event) => {
+    event.preventDefault()
     this.setState({ checkOutModal: false });
     var amountDiff =
       parseInt(this.state.total, 10) - parseInt(this.state.totalPayment, 10);
@@ -151,6 +153,11 @@ class Pos extends Component {
   keyPressed(event) {
     if (event.key === "Enter") {
       this.handleBarCodeSubmit()
+    }
+  }
+  checkoutKey(event) {
+    if (event.key === 32) {
+      this.handleCheckOut()
     }
   }
 
@@ -279,12 +286,13 @@ class Pos extends Component {
               
             </div>
             
-            <div>
+            <div >
             
               <button
                 className="btn btn-success lead"
                 id="checkoutButton"
                 onClick={this.handleCheckOut}
+                
               >
                 <i className="glyphicon glyphicon-shopping-cart" />
                 <br />
@@ -322,6 +330,7 @@ class Pos extends Component {
                           <div className="input-group">
                             <div className="input-group-addon">$</div>
                             <input
+                              autoFocus
                               type="number"
                               id="checkoutPaymentAmount"
                               className="form-control input-lg"
@@ -357,7 +366,7 @@ class Pos extends Component {
                   </Modal.Footer>
                 </Modal>
               </div>
-            </div>
+            </div> 
           </div>
           
           {renderAmountDue()}
