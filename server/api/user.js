@@ -31,7 +31,7 @@ app.post("/newUser", function(req, res) {
   });
 app.post('/login',(req,res)=>{
     User.findOne({username:req.body.username},(err,data)=>{
-        if(err){
+        if(err|| data==null){
             return res.status(500).send(err);
         }else{
             console.log(data)

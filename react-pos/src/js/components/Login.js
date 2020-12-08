@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Form,FormGroup,FormLabel,FormControl} from "react-bootstrap";
+import {Form,FormGroup,FormLabel,FormControl, Modal} from "react-bootstrap";
 import {Button} from "react-bootstrap";
 import "./Login.css";
 import axios from "axios";
@@ -10,6 +10,7 @@ const HOST = "http://localhost:8001";
 export default function Login({authUser=f=>f}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [resposeUser,setResponseUser] = useState(false);
 
   function validateForm() {
     return username.length > 0 && password.length > 0;
@@ -21,9 +22,16 @@ export default function Login({authUser=f=>f}) {
       username:username,
       password:password
     }
-   var response = await axios.post(HOST+"/login",userNew)
-   localStorage.setItem('currentUser',JSON.stringify(response.data))
+   axios.post(HOST+"/login",userNew)
+   .then((response)=>{
+    localStorage.setItem('currentUser',JSON.stringify(response.data))
     authUser(response.data);
+    })
+   .catch(err=>{
+    setResponseUser(true)
+   })
+   
+   
     // .then((response)=>{
     //   authUser(response)
     // })
@@ -31,10 +39,22 @@ export default function Login({authUser=f=>f}) {
 
   
 
+  
+
+  
+
   return (
 
      
     <div className="Login">
+      <Modal show={resposeUser}>
+        <Modal.Body>
+          User name or password is incorrect
+        </Modal.Body>
+        <Modal.Footer>
+          <Button autoFocus onClick={()=>setResponseUser(false)}>Ok</Button>
+        </Modal.Footer>
+      </Modal>
       <Header/> 
       <Form onSubmit={handleSubmit}>
         <FormGroup size="lg" controlId="username">
