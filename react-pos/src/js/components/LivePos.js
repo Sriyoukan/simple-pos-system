@@ -6,7 +6,7 @@ class LivePos extends Component {
     this.props.onChange(id, itemNumber);
   };
   render() {
-    const { id, name, price, quantity } = this.props;
+    const { id, name, price, quantity,quantityOnHand } = this.props;
     var itemNumber = quantity;
     return (
       <tr>
@@ -15,7 +15,7 @@ class LivePos extends Component {
         <td className="col-md-2">
           <button
             className="btn btn-sm pull-left"
-            onClick={() => this.handleChange(id, --itemNumber)}
+            onClick={() => {itemNumber>0?this.handleChange(id, --itemNumber):null}}
           >
             <i className="glyphicon glyphicon-minus" />
           </button>
@@ -26,7 +26,7 @@ class LivePos extends Component {
 
           <button
             className="btn btn-sm pull-right"
-            onClick={() => this.handleChange(id, ++itemNumber)}
+            onClick={() => {itemNumber<quantityOnHand? this.handleChange(id, ++itemNumber):null}}
           >
             <i className="glyphicon glyphicon-plus" />
           </button>

@@ -3,3 +3,5 @@
 {"name":"160605P","bar_code":"1234","quantity":1,"price":"123","actualPrice":"12","_id":"6yLtKUendcmH0LwV"}
 {"name":"Xiaomi Redmi Note 5a Prime","bar_code":"345","quantity":12,"price":"123","actualPrice":"124","_id":"HHwB0Clxcp2W7OEh"}
 {"name":"Xiaomi Redmi Note 5a Prime","bar_code":"123","quantity":12,"price":"120","actualPrice":"90","_id":"Z4WAisi1P92OEDou"}
+{"name":"Xiaomi Redmi Note 5a Prime","bar_code":"123","quantity":0,"price":"120","actualPrice":"90","_id":"Z4WAisi1P92OEDou"}
+{"name":"Xiaomi Redmi Note 5a Prime","bar_code":"123","quantity":12,"price":"120","actualPrice":"90","_id":"Z4WAisi1P92OEDou"}

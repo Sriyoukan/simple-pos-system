@@ -73,12 +73,14 @@ class Pos extends Component {
           name: "",
           price: 0,
           actualPrice:0,
-          quantity: this.state.quantity
+          quantity: this.state.quantity,
+          quantityOnHand:0
         };
         currentItem.actualPrice = response.data.actualPrice
         currentItem._id = response.data._id
         currentItem.name = response.data.name
         currentItem.price = response.data.price
+        currentItem.quantityOnHand=response.data.quantity
         var items = this.state.items;
         items.push(currentItem);
         this.setState({ items: items });
@@ -126,7 +128,7 @@ class Pos extends Component {
       this.setState({ items: newitems });
     } else {
       for (var i = 0; i < items.length; i++) {
-        if (items[i].id === id) {
+        if (items[i].id === id ) {
           items[i].quantity = value;
           this.setState({ items: items });
         }
