@@ -2,9 +2,16 @@
 {"name":"sriyoukan","bar_code":"789","quantity":32,"price":"123","actualPrice":"12","_id":"1HRUdPpmhxj9T25c"}
 {"name":"160605P","bar_code":"1234","quantity":2,"price":"123","actualPrice":"12","_id":"6yLtKUendcmH0LwV"}
 {"name":"Xiaomi Redmi Note 5a Prime","bar_code":"345","quantity":"12","price":"123","actualPrice":"124","_id":"HHwB0Clxcp2W7OEh"}
-{"name":"Xiaomi Redmi Note 5a Prime","bar_code":"123","quantity":9,"price":"120","actualPrice":"90","_id":"Z4WAisi1P92OEDou"}
 {"name":"Xiaomi Redmi Note 5a Prime","bar_code":"123","quantity":10,"price":"120","actualPrice":"90","_id":"Z4WAisi1P92OEDou"}
+{"name":"Xiaomi Redmi Note 5a Prime","bar_code":"345","quantity":11,"price":"123","actualPrice":"124","_id":"HHwB0Clxcp2W7OEh"}
 {"name":"Xiaomi Redmi Note 5a Prime","bar_code":"123","quantity":11,"price":"120","actualPrice":"90","_id":"Z4WAisi1P92OEDou"}
 {"name":"Xiaomi Redmi Note 5a Prime","bar_code":"123","quantity":12,"price":"120","actualPrice":"90","_id":"Z4WAisi1P92OEDou"}
-{"name":"Xiaomi Redmi Note 5a Prime","bar_code":"123","quantity":11,"price":"120","actualPrice":"90","_id":"Z4WAisi1P92OEDou"}
-{"name":"Xiaomi Redmi Note 5a Prime","bar_code":"123","quantity":10,"price":"120","actualPrice":"90","_id":"Z4WAisi1P92OEDou"}
+{"name":"160605P","bar_code":"1234","quantity":1,"price":"123","actualPrice":"12","_id":"6yLtKUendcmH0LwV"}
+{"name":"160605P","bar_code":"1234","quantity":0,"price":"123","actualPrice":"12","_id":"6yLtKUendcmH0LwV"}
+{"name":"sriyoukan","bar_code":"789","quantity":31,"price":"123","actualPrice":"12","_id":"1HRUdPpmhxj9T25c"}
+{"name":"sriyoukan","bar_code":"789","quantity":30,"price":"123","actualPrice":"12","_id":"1HRUdPpmhxj9T25c"}
+{"name":"sriyoukan","bar_code":"789","quantity":29,"price":"123","actualPrice":"12","_id":"1HRUdPpmhxj9T25c"}
+{"name":"160605P","bar_code":"1234","quantity":1,"price":"123","actualPrice":"12","_id":"6yLtKUendcmH0LwV"}
+{"name":"sriyoukan","bar_code":"789","quantity":30,"price":"123","actualPrice":"12","_id":"1HRUdPpmhxj9T25c"}
+{"name":"Xiaomi Redmi Note 5a Prime","bar_code":"345","quantity":12,"price":"123","actualPrice":"124","_id":"HHwB0Clxcp2W7OEh"}
+{"name":"sriyoukan","bar_code":"789","quantity":31,"price":"123","actualPrice":"12","_id":"1HRUdPpmhxj9T25c"}

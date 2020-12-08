@@ -8,6 +8,7 @@ class CompleteTransactions extends Component {
     super(props);
     this.state = {
       transactionModal: false,
+      deleteModal:false,
       totalquantity: 0,
       items: []
     };
@@ -52,11 +53,24 @@ class CompleteTransactions extends Component {
         <td>
           <a
             className="btn btn-info"
-            onClick={()=>{this.deleteTransaction(_id)}}
+            onClick={()=>{this.setState({deleteModal:true})}}
           >
             <i className="glyphicon glyphicon-remove-sign" />
           </a>
         </td>
+        <Modal show={this.state.deleteModal}>
+          <Modal.Body>
+            Want to delete??
+          </Modal.Body>
+          <Modal.Footer>
+            <Button className="btn btn-danger" onClick={() => {this.deleteTransaction(_id);this.setState({ deleteModal: false })}}>
+              delete
+            </Button>
+            <Button onClick={() => {this.setState({ deleteModal: false })}}>
+              cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
         <Modal show={this.state.transactionModal}>
           <Modal.Header>

@@ -29,7 +29,8 @@ class Pos extends Component {
       changeDue: 0,
       name: "",
       price: 0,
-      bar_code:""
+      bar_code:"",
+      zeroItemModal:false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleName = this.handleName.bind(this);
@@ -65,7 +66,7 @@ class Pos extends Component {
     axios
     .get(HOST + `/api/inventory/product/${this.state.bar_code}`)
     .then(response=>{
-      if(response.data){
+      if(response.data && response.data.quantity){
         const currentItem = {
           id:this.state.id++,
           _id:"",
@@ -82,6 +83,8 @@ class Pos extends Component {
         items.push(currentItem);
         this.setState({ items: items });
         this.setState({bar_code:""})
+      }else{
+        this.setState({zeroItemModal:true})
       }
       
      
@@ -165,6 +168,28 @@ class Pos extends Component {
   render() {
     var { quantity, modal, items,items_dublicate } = this.state;
 
+    var renderZeroItem = () =>{
+      return(
+        <Modal show={this.state.zeroItemModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>No Item in inventory</Modal.Title> 
+          </Modal.Header>
+          <Modal.Body>
+            <h3>
+              You cannot find product in inventory!
+            </h3>
+            
+          </Modal.Body>
+          <Modal.Footer>
+            <Button autoFocus onClick={() => this.setState({ zeroItemModal: false })}>
+              close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+      )
+    }
+
     var renderAmountDue = () => {
       return (
         <Modal show={this.state.amountDueModal}>
@@ -243,7 +268,7 @@ class Pos extends Component {
                 <span className="text-success">{this.state.changeDue}</span>
               </h3>             
           </PrintComponents>
-          <Button onClick={() => {this.setState({receiptModal: false })}}>close</Button> 
+          <Button autoFocus  onClick={() => this.setState({receiptModal: false })}>close</Button> 
               
           </Modal.Footer>
         </Modal>
@@ -281,7 +306,7 @@ class Pos extends Component {
             </span>
             <div>
               
-              <input   type="text" id="myInput" value={this.state.bar_code} className="form-control" style={{width:500,display:"inline"}}  placeholder="Search" aria-label="Search" onChange={event =>this.setState({bar_code:event.target.value})} onKeyPress={this.keyPressed} />
+              <input  type="text" id="myInput" value={this.state.bar_code} className="form-control" style={{width:500,display:"inline"}}  placeholder="Search" aria-label="Search" onChange={event =>this.setState({bar_code:event.target.value})} onKeyPress={this.keyPressed} />
               <button type="submit" id="myButton" className="btn btn-success" style={{marginBottom:3}} onClick={this.handleBarCodeSubmit}>Enter</button>
               
             </div>
@@ -292,6 +317,8 @@ class Pos extends Component {
                 className="btn btn-success lead"
                 id="checkoutButton"
                 onClick={this.handleCheckOut}
+                onKeyPress={this.checkoutKey}
+                
                 
               >
                 <i className="glyphicon glyphicon-shopping-cart" />
@@ -371,6 +398,7 @@ class Pos extends Component {
           
           {renderAmountDue()}
           {renderReceipt()}
+          {renderZeroItem()}
           <table className="pos table table-responsive table-striped table-hover">
             <thead>
               <tr>
