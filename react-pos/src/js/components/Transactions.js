@@ -233,6 +233,7 @@ class Transactions extends Component {
                 <div style={{borderColor:"black",borderWidth:2}}>
                   <span ><h3>Total =  {this.state.total} Rs</h3></span>
                   <span><h3>ActualTotal =  {this.state.actualTotal} Rs</h3></span>
+                  <span><h3>Benifit =  {this.state.total-this.state.actualTotal} Rs</h3></span>
                 </div>
                 
             </Col>
