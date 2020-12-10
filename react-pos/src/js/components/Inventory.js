@@ -20,7 +20,8 @@ class Inventory extends Component {
       quantity: "",
       price: "",
       actualPrice:"",
-      bar_code:""
+      bar_code:"",
+      alreadyExistModal:false
     };
     this.componentWillMount=this.componentWillMount.bind(this);
     this.handleNewProduct = this.handleNewProduct.bind(this);
@@ -40,28 +41,40 @@ class Inventory extends Component {
   handleNewProduct = e => {
     e.preventDefault();
     this.setState({ productFormModal: false });
-    var newProduct = {
-      name: this.state.name,
-      bar_code: this.state.bar_code,
-      quantity: this.state.quantity,
-      price: this.state.price,
-      actualPrice:this.state.actualPrice
-    };
-
-    axios
-      .post(HOST + `/api/inventory/product`, newProduct)
-      .then(
-        response =>
-          this.setState({ snackMessage: "Product Added Successfully!" }),
-          this.componentWillMount(),
-        this.handleSnackbar()
-      )
-      .catch(err => {
-        console.log(err),
-          this.setState({ snackMessage: "Product failed to save" }),
-          this.handleSnackbar();
-
-      });
+    var product;
+    var found=false;
+    for(product of this.state.products){
+      if(product.name === this.state.name || product.bar_code === this.state.bar_code){
+        this.setState({alreadyExistModal:true})
+        found=true
+        break
+      }
+    }
+    if(!found){
+      var newProduct = {
+        name: this.state.name,
+        bar_code: this.state.bar_code,
+        quantity: this.state.quantity,
+        price: this.state.price,
+        actualPrice:this.state.actualPrice
+      };
+  
+      axios
+        .post(HOST + `/api/inventory/product`, newProduct)
+        .then(
+          response =>
+            this.setState({ snackMessage: "Product Added Successfully!" }),
+            this.componentWillMount(),
+          this.handleSnackbar()
+        )
+        .catch(err => {
+          console.log(err),
+            this.setState({ snackMessage: "Product failed to save" }),
+            this.handleSnackbar();
+  
+        });
+    }
+    
   };
   handleEditProduct = editProduct => {
     axios
@@ -119,7 +132,14 @@ class Inventory extends Component {
 
     return (
       <div>
-        
+        <Modal show={this.state.alreadyExistModal}>
+          <Modal.Body>
+            Product already Exist!
+          </Modal.Body>
+          <Modal.Footer>
+            <Button autoFocus type="submit" onClick={()=>{this.setState({alreadyExistModal:false})}}>Ok</Button>
+          </Modal.Footer>
+        </Modal>
 
         <div className="container" style={{paddingTop:5}}>
           {user?user.userType=='owner'?<a

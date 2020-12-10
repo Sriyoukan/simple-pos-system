@@ -39,7 +39,9 @@ class Pos extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleCheckOut = this.handleCheckOut.bind(this);
     this.handleBarCodeSubmit = this.handleBarCodeSubmit.bind(this);
+    this.handleNameSubmit = this.handleNameSubmit.bind(this);
     this.keyPressed = this.keyPressed.bind(this);
+    this.keyPressed1 = this.keyPressed1.bind(this);
     this.checkoutKey = this.checkoutKey.bind(this);
 
   }
@@ -85,6 +87,39 @@ class Pos extends Component {
         items.push(currentItem);
         this.setState({ items: items });
         this.setState({bar_code:""})
+      }else{
+        this.setState({zeroItemModal:true})
+      }
+      
+     
+    })
+    
+    
+    
+  }
+  handleNameSubmit = () => {
+    axios
+    .get(HOST + `/api/inventory/productName/${this.state.name}`)
+    .then(response=>{
+      if(response.data && response.data.quantity){
+        const currentItem = {
+          id:this.state.id++,
+          _id:"",
+          name: "",
+          price: 0,
+          actualPrice:0,
+          quantity: this.state.quantity,
+          quantityOnHand:0
+        };
+        currentItem.actualPrice = response.data.actualPrice
+        currentItem._id = response.data._id
+        currentItem.name = response.data.name
+        currentItem.price = response.data.price
+        currentItem.quantityOnHand=response.data.quantity
+        var items = this.state.items;
+        items.push(currentItem);
+        this.setState({ items: items });
+        this.setState({name:""})
       }else{
         this.setState({zeroItemModal:true})
       }
@@ -149,7 +184,8 @@ class Pos extends Component {
     const transaction = {
       date: moment().format("DD-MMM-YYYY HH:mm:ss"),
       total: this.state.total,
-      items: this.state.items
+      items: this.state.items,
+      totalPayment: this.state.totalPayment
     };
     axios.post(HOST + "/api/new", transaction).catch(err => {
       console.log(err);
@@ -158,6 +194,11 @@ class Pos extends Component {
   keyPressed(event) {
     if (event.key === "Enter") {
       this.handleBarCodeSubmit()
+    }
+  }
+  keyPressed1(event) {
+    if (event.key === "Enter") {
+      this.handleNameSubmit()
     }
   }
   checkoutKey(event) {
@@ -307,10 +348,11 @@ class Pos extends Component {
               <span />
             </span>
             <div>
-              
-              <input  type="text" id="myInput" value={this.state.bar_code} className="form-control" style={{width:500,display:"inline"}}  placeholder="Search" aria-label="Search" onChange={event =>this.setState({bar_code:event.target.value})} onKeyPress={this.keyPressed} />
+              <input  type="text" id="myInput" value={this.state.bar_code} className="form-control" style={{width:500,display:"inline"}}  placeholder="BarCode" aria-label="Search" onChange={event =>this.setState({bar_code:event.target.value})} onKeyPress={this.keyPressed} />
               <button type="submit" id="myButton" className="btn btn-success" style={{marginBottom:3}} onClick={this.handleBarCodeSubmit}>Enter</button>
-              
+              <br/>
+              <input  type="text" id="myInput1" value={this.state.name} className="form-control" style={{width:500,display:"inline"}}  placeholder="Name" aria-label="Search" onChange={event =>this.setState({name:event.target.value})} onKeyPress={this.keyPressed1} />
+              <button type="submit" id="myButton1" className="btn btn-success" style={{marginBottom:3}} onClick={this.handleNameSubmit}>Enter</button>
             </div>
             
             <div >

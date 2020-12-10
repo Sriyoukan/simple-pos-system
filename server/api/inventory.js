@@ -36,6 +36,12 @@ app.get("/product/:bar_code",function(req,res){
   })
 })
 
+app.get("/productName/:name",(req,res)=>{
+  inventoryDB.findOne({name:req.params.name},(err,product)=>{
+    res.send(product)
+  })
+})
+
 // GET all inventory products
 app.get("/products", function(req, res) {
   inventoryDB.find({}, function(err, docs) {

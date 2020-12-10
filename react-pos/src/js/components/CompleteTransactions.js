@@ -23,7 +23,7 @@ class CompleteTransactions extends Component {
   }
 
   render() {
-    var { date, total, items,_id } = this.props;
+    var { date, total, items,_id ,totalPayment} = this.props;
     var renderQuantity = items => {
       var totalquantity = 0;
       for (var i = 0; i < items.length; i++) {
@@ -93,17 +93,17 @@ class CompleteTransactions extends Component {
                   <tr className="total">
                     <td />
                     <td>Total</td>
-                    <td> ${total} </td>
+                    <td> {total} Rs</td>
                   </tr>
                   <tr>
                     <td />
                     <td>Payment</td>
-                    <td> ${total} </td>
+                    <td> {totalPayment} Rs</td>
                   </tr>
                   <tr className="lead">
                     <td />
                     <td>Change</td>
-                    <td> ${0} </td>
+                    <td> {totalPayment-total} Rs </td>
                   </tr>
                 </tbody>
               </table>
