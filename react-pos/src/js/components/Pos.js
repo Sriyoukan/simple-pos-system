@@ -9,6 +9,7 @@ import LivePos from "./LivePos";
 import TransactionDetail from './TransactionDetail'
 import PrintComponents from "react-print-components";
 import { isWidthDown } from "@material-ui/core";
+import Suggesion from "./Suggesion";
 
 const HOST = "http://localhost:8001";
 let socket = io.connect(HOST);
@@ -17,6 +18,8 @@ class Pos extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      products:[],
+      searchProduct:[],
       items: [],
       items_dublicate:[],
       quantity: 1,
@@ -43,12 +46,21 @@ class Pos extends Component {
     this.keyPressed = this.keyPressed.bind(this);
     this.keyPressed1 = this.keyPressed1.bind(this);
     this.checkoutKey = this.checkoutKey.bind(this);
+    this.handleDynamicSearch=this.handleDynamicSearch.bind(this);
+    this.setProduct = this.setProduct.bind(this);
 
   }
   componentDidUpdate() {
     if (this.state.items.length !== 0) {
       socket.emit("update-live-cart", this.state.items);
     }
+  }
+
+  componentWillMount() {
+    var url = HOST + `/api/inventory/products`;
+    axios.get(url).then(response => {
+      this.setState({ products: response.data });
+    });
   }
 
   handleSubmit = e => {
@@ -98,37 +110,63 @@ class Pos extends Component {
     
   }
   handleNameSubmit = () => {
-    axios
-    .get(HOST + `/api/inventory/productName/${this.state.name}`)
-    .then(response=>{
-      if(response.data && response.data.quantity){
-        const currentItem = {
-          id:this.state.id++,
-          _id:"",
-          name: "",
-          price: 0,
-          actualPrice:0,
-          quantity: this.state.quantity,
-          quantityOnHand:0
-        };
-        currentItem.actualPrice = response.data.actualPrice
-        currentItem._id = response.data._id
-        currentItem.name = response.data.name
-        currentItem.price = response.data.price
-        currentItem.quantityOnHand=response.data.quantity
-        var items = this.state.items;
-        items.push(currentItem);
-        this.setState({ items: items });
-        this.setState({name:""})
-      }else{
-        this.setState({zeroItemModal:true})
+    // axios
+    // .get(HOST + `/api/inventory/productName/${this.state.name}`)
+    // .then(response=>{
+    //   if(response.data && response.data.quantity){
+    //     const currentItem = {
+    //       id:this.state.id++,
+    //       _id:"",
+    //       name: "",
+    //       price: 0,
+    //       actualPrice:0,
+    //       quantity: this.state.quantity,
+    //       quantityOnHand:0
+    //     };
+        var found = false
+
+        this.state.products.map((result)=>{
+          if(result.name==this.state.name){
+            const currentItem = {
+              id:this.state.id++,
+              _id:result._id,
+              name: result.name,
+              price: result.price,
+              actualPrice:result.actualPrice,
+              quantity: this.state.quantity,
+              quantityOnHand:result.quantity
+            }
+            var items = this.state.items;
+            items.push(currentItem);
+            this.setState({ items: items });
+            this.setState({name:""})
+            this.setState({searchProduct:[]})
+            found=true
+
+          }
+        })
+        // currentItem.actualPrice = response.data.actualPrice
+        // currentItem._id = response.data._id
+        // currentItem.name = response.data.name
+        // currentItem.price = response.data.price
+        // currentItem.quantityOnHand=response.data.quantity
+        if(!found){
+          this.setState({zeroItemModal:true})
+        }
+  }
+  handleDynamicSearch(event){
+    this.setState({name:event.target.value})
+    var localProduct =[]
+
+    this.state.products.map((value)=>{
+      var value1= value.name.search(event.target.value)
+      if(value1>=0 && event.target.value ){
+        localProduct.push(value)
       }
       
-     
+      this.setState({searchProduct:localProduct})
     })
-    
-    
-    
+
   }
  
   handleName = e => {
@@ -194,6 +232,7 @@ class Pos extends Component {
   keyPressed(event) {
     if (event.key === "Enter") {
       this.handleBarCodeSubmit()
+      // document.getElementById("myInput")
     }
   }
   keyPressed1(event) {
@@ -205,6 +244,11 @@ class Pos extends Component {
     if (event.key === 32) {
       this.handleCheckOut()
     }
+  }
+
+  setProduct(name){
+    this.setState({name:name})
+    document.getElementById("myInput1").focus();
   }
 
   
@@ -351,8 +395,10 @@ class Pos extends Component {
               <input  type="text" id="myInput" value={this.state.bar_code} className="form-control" style={{width:500,display:"inline"}}  placeholder="BarCode" aria-label="Search" onChange={event =>this.setState({bar_code:event.target.value})} onKeyPress={this.keyPressed} />
               <button type="submit" id="myButton" className="btn btn-success" style={{marginBottom:3}} onClick={this.handleBarCodeSubmit}>Enter</button>
               <br/>
-              <input  type="text" id="myInput1" value={this.state.name} className="form-control" style={{width:500,display:"inline"}}  placeholder="Name" aria-label="Search" onChange={event =>this.setState({name:event.target.value})} onKeyPress={this.keyPressed1} />
+              <input  type="text" id="myInput1" value={this.state.name} className="form-control" style={{width:500,display:"inline"}}  placeholder="Name" aria-label="Search" onChange={this.handleDynamicSearch} onKeyPress={this.keyPressed1} />
               <button type="submit" id="myButton1" className="btn btn-success" style={{marginBottom:3}} onClick={this.handleNameSubmit}>Enter</button>
+              <Suggesion  results={this.state.searchProduct} setProduct={this.setProduct}/>
+              
             </div>
             
             <div >

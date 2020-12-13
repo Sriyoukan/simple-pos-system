@@ -5,7 +5,8 @@ import Header from "./Header";
 import CompleteTransactions from "./CompleteTransactions";
 import axios from "axios";
 import moment from "moment";
-import {Tab} from 'react-bootstrap'
+import {DropdownButton,Item} from 'react-bootstrap'
+
 import {TabContainer} from 'react-bootstrap'
 import {TabContent} from 'react-bootstrap'
 import {TabPane} from 'react-bootstrap'
@@ -31,25 +32,21 @@ class Transactions extends Component {
       total:0,
       actualTotal:0,
       dates:[],
-      dateIndex:0
+      dateIndex:0,
+      date:moment().format("DD-MMM-YYYY ")
      };
-     this.handleDateTransaction0 = this.handleDateTransaction0.bind(this)
-     this.handleDateTransaction1 = this.handleDateTransaction1.bind(this)
-     this.handleDateTransaction2 = this.handleDateTransaction2.bind(this)
-     this.handleDateTransaction3 = this.handleDateTransaction3.bind(this)
-     this.handleDateTransaction4 = this.handleDateTransaction4.bind(this)
-     this.handleDateTransaction5 = this.handleDateTransaction5.bind(this)
-     this.handleDateTransaction6 = this.handleDateTransaction6.bind(this)
+    
      this.removeFromList = this.removeFromList.bind(this)
      this.handleTransactions = this.handleTransactions.bind(this)
+     this.handleDateTransaction = this.handleDateTransaction.bind(this)
 
-     for(var i=0;i<7;i++) {
+     for(var i=0;i<60;i++) {
         this.state.dates.push(moment().subtract(i,'days').format("DD-MMM-YYYY "))
      }
   }
   componentWillMount() {
     axios
-      .get(url)
+      .post(url,{date:this.state.date})
       .then(response => {
         this.setState({ transactions: response.data })
         this.handleTransactions(response.data)
@@ -62,106 +59,14 @@ class Transactions extends Component {
 
    
   }
-  handleDateTransaction0 = () =>{
+  
+  handleDateTransaction= (date)=>{
     axios
-      .get(url,{params:{data:0}})
-      .then(response => {
-        this.setState({ transactions: response.data })
-        this.handleTransactions(response.data)
-      
-      })
-        
-      .catch(err => {
-        console.log(err);
-      });
-      
-      
-      
-    
-  }
-  handleDateTransaction1 = () =>{
-    axios
-      .get(url,{params:{data:1}})
-      .then(response => {
-        this.setState({ transactions: response.data })
-        this.handleTransactions(response.data)
-
-      })
-      .catch(err => {
-        console.log(err);
-      });
-       
-
-  }
-  handleDateTransaction2 = () =>{
-    axios
-      .get(url,{params:{data:2}})
-      .then(response => {
-        this.setState({ transactions: response.data })
-        this.handleTransactions(response.data)
-      })
-        
-      .catch(err => {
-        console.log(err);
-      });
-       
-
-  }
-  handleDateTransaction3 = () =>{
-    axios
-      .get(url,{params:{data:3}})
-      .then(response => {
-        this.setState({ transactions: response.data })
-        this.handleTransactions(response.data)
-      })
-        
-      .catch(err => {
-        console.log(err);
-      });
-      
-
-  }
-  handleDateTransaction4 = () =>{
-    axios
-      .get(url,{params:{data:4}})
-      .then(response => {
-        this.setState({ transactions: response.data })
-        this.handleTransactions(response.data)
-      })
-        
-      .catch(err => {
-        console.log(err);
-      });
-      
-
-  }
-  handleDateTransaction5 = () =>{
-    axios
-      .get(url,{params:{data:5}})
-      .then(response => {
-        this.setState({ transactions: response.data })
-        this.handleTransactions(response.data)
-      })
-        
-      .catch(err => {
-        console.log(err);
-      });
-      
-
-  }
-  handleDateTransaction6 = () =>{
-    axios
-      .get(url,{params:{data:6}})
-      .then(response => {
-        this.setState({ transactions: response.data })
-        this.handleTransactions(response.data)
-      })
-        
-      .catch(err => {
-        console.log(err);
-      });
-      
-
+    .post(url,{date:date})
+    .then(response=>{
+      this.setState({transactions:response.data})
+      this.handleTransactions(response.data)
+    })
   }
   handleTransactions=(transactions)=>{
     var transactionNew = transactions
@@ -214,33 +119,13 @@ class Transactions extends Component {
 
       <div>
         
-        <TabContainer id="left-tabs-example" defaultActiveKey={moment().format("DD-MMM-YYYY ")}>
-          
-          <Row>
-            <Col sm={3}>
-              <Nav variant="pills" className="flex-column">
-      
-                    <NavItem eventKey={moment().format("DD-MMM-YYYY ")} onClick={this.handleDateTransaction0} >{moment().format("DD-MMM-YYYY ")}</NavItem>
-                    <NavItem eventKey={moment().subtract(1,'days').format("DD-MMM-YYYY ")} onClick={this.handleDateTransaction1} >{moment().subtract(1,'days').format("DD-MMM-YYYY ")}</NavItem>
-                    <NavItem eventKey={moment().subtract(2,'days').format("DD-MMM-YYYY ")} onClick={this.handleDateTransaction2} >{moment().subtract(2,'days').format("DD-MMM-YYYY ")}</NavItem>
-                    <NavItem eventKey={moment().subtract(3,'days').format("DD-MMM-YYYY ")} onClick={this.handleDateTransaction3} >{moment().subtract(3,'days').format("DD-MMM-YYYY ")}</NavItem>
-                    <NavItem eventKey={moment().subtract(4,'days').format("DD-MMM-YYYY ")} onClick={this.handleDateTransaction4} >{moment().subtract(4,'days').format("DD-MMM-YYYY ")}</NavItem>
-                    <NavItem eventKey={moment().subtract(5,'days').format("DD-MMM-YYYY ")} onClick={this.handleDateTransaction5} >{moment().subtract(5,'days').format("DD-MMM-YYYY ")}</NavItem>
-                    <NavItem eventKey={moment().subtract(6,'days').format("DD-MMM-YYYY ")} onClick={this.handleDateTransaction6} >{moment().subtract(6,'days').format("DD-MMM-YYYY ")}</NavItem>
-                  
-              </Nav>
-                
-                <div style={{borderColor:"black",borderWidth:2}}>
-                  <span ><h3>Total =  {this.state.total} Rs</h3></span>
-                  <span><h3>ActualTotal =  {this.state.actualTotal} Rs</h3></span>
-                  <span><h3>Benifit =  {this.state.total-this.state.actualTotal} Rs</h3></span>
-                </div>
-                
-            </Col>
-            <Col sm={9}>
-              <TabContent>
-                <TabPane eventKey={moment().subtract(0,'days').format("DD-MMM-YYYY ")}>
-                <table class="table table-hover table-striped">
+        
+            <DropdownButton style={{paddingTop:5}} id="dropdown-basic-button" title="Select Date">
+              {this.state.dates.map((date)=>(
+                <NavItem  key={date} onClick={()=>this.handleDateTransaction(date)}>{date}</NavItem>
+              ))}
+            </DropdownButton>
+            <table class="table table-hover table-striped">
                     <thead>
                       <tr>
                         <th>Time</th>
@@ -252,90 +137,15 @@ class Transactions extends Component {
                     </thead>
                     <tbody>{rendertransactions()}</tbody>
                 </table>
-                </TabPane>
-                <TabPane eventKey={moment().subtract(1,'days').format("DD-MMM-YYYY ")}>
-                <table class="table table-hover table-striped">
-                    <thead>
-                      <tr>
-                        <th>Time</th>
-                        <th>Total</th>
-                        <th>Products</th>
-                        <th>Open</th>
-                      </tr>
-                    </thead>
-                    <tbody>{rendertransactions()}</tbody>
-                </table>
-                </TabPane>
-                <TabPane eventKey={moment().subtract(2,'days').format("DD-MMM-YYYY ")}>
-                <table class="table table-hover table-striped">
-                    <thead>
-                      <tr>
-                        <th>Time</th>
-                        <th>Total</th>
-                        <th>Products</th>
-                        <th>Open</th>
-                      </tr>
-                    </thead>
-                    <tbody>{rendertransactions()}</tbody>
-                </table>
-                </TabPane>
-                <TabPane eventKey={moment().subtract(3,'days').format("DD-MMM-YYYY ")}>
-                <table class="table table-hover table-striped">
-                    <thead>
-                      <tr>
-                        <th>Time</th>
-                        <th>Total</th>
-                        <th>Products</th>
-                        <th>Open</th>
-                      </tr>
-                    </thead>
-                    <tbody>{rendertransactions()}</tbody>
-                </table>
-                </TabPane>
-                <TabPane eventKey={moment().subtract(4,'days').format("DD-MMM-YYYY ")}>
-                <table class="table table-hover table-striped">
-                    <thead>
-                      <tr>
-                        <th>Time</th>
-                        <th>Total</th>
-                        <th>Products</th>
-                        <th>Open</th>
-                      </tr>
-                    </thead>
-                    <tbody>{rendertransactions()}</tbody>
-                </table>
-                </TabPane>
-                <TabPane eventKey={moment().subtract(5,'days').format("DD-MMM-YYYY ")}>
-                <table class="table table-hover table-striped">
-                    <thead>
-                      <tr>
-                        <th>Time</th>
-                        <th>Total</th>
-                        <th>Products</th>
-                        <th>Open</th>
-                      </tr>
-                    </thead>
-                    <tbody>{rendertransactions()}</tbody>
-                </table>
-                </TabPane>
-                <TabPane eventKey={moment().subtract(6,'days').format("DD-MMM-YYYY ")}>
-                <table class="table table-hover table-striped">
-                    <thead>
-                      <tr>
-                        <th>Time</th>
-                        <th>Total</th>
-                        <th>Products</th>
-                        <th>Open</th>
-                      </tr>
-                    </thead>
-                    <tbody>{rendertransactions()}</tbody>
-                </table>
-                </TabPane>
-               
-              </TabContent>
-            </Col>
-          </Row>
-        </TabContainer>
+              
+                
+                <div className="text-center" style={{borderStyle:"solid",borderWidth:2}}>
+                  <span ><h3><b>Total</b> =  {this.state.total} Rs</h3></span>
+                  <span><h3><b>ActualTotal</b> =  {this.state.actualTotal} Rs</h3></span>
+                  <span><h3><b>Benifit</b> =  {this.state.total-this.state.actualTotal} Rs</h3></span>
+                </div>
+                
+            
         
       </div>
       

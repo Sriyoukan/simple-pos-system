@@ -1,2 +1,10 @@
-{"name":"break","bar_code":"123","quantity":"12","price":"123","actualPrice":"123","_id":"KZZe4BY72oWH957T"}
-{"name":"oil","bar_code":"1234","quantity":"123","price":"123","actualPrice":"123","_id":"hL5vo8PQXPB3TmQj"}
+{"name":"break","bar_code":"123","quantity":11,"price":"123","actualPrice":"123","_id":"D2BENrOceeTjnabE"}
+{"name":"xsaw","bar_code":"8902396013294","quantity":"12","price":"123","actualPrice":"123","_id":"ceQ7BMwQOPQkfr5t"}
+{"name":"easter","bar_code":"234","quantity":"23","price":"234","actualPrice":"234","_id":"fMCLQFKOY8g7rXAR"}
+{"name":"oilbreak","bar_code":"12345","quantity":"12","price":"123","actualPrice":"123","_id":"kf05NN5yEke7QDIS"}
+{"name":"break1","bar_code":"123e","quantity":"12","price":"123","actualPrice":"123","_id":"prV8rWRqn2cODrG5"}
+{"name":"break1","bar_code":"123e","quantity":11,"price":"123","actualPrice":"123","_id":"prV8rWRqn2cODrG5"}
+{"name":"break","bar_code":"123","quantity":10,"price":"123","actualPrice":"123","_id":"D2BENrOceeTjnabE"}
+{"name":"break","bar_code":"123","quantity":9,"price":"123","actualPrice":"123","_id":"D2BENrOceeTjnabE"}
+{"name":"break1","bar_code":"123e","quantity":10,"price":"123","actualPrice":"123","_id":"prV8rWRqn2cODrG5"}
+{"name":"break","bar_code":"123","quantity":0,"price":"123","actualPrice":"123","_id":"D2BENrOceeTjnabE"}

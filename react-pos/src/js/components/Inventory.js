@@ -14,6 +14,7 @@ class Inventory extends Component {
 
     this.state = {
       products: [],
+      productsDuplicate:[],
       productFormModal: false,
       name: "",
       snackMessage: "",
@@ -21,7 +22,9 @@ class Inventory extends Component {
       price: "",
       actualPrice:"",
       bar_code:"",
-      alreadyExistModal:false
+      alreadyExistModal:false,
+      searchName:"",
+      searchBarcode:""
     };
     this.componentWillMount=this.componentWillMount.bind(this);
     this.handleNewProduct = this.handleNewProduct.bind(this);
@@ -31,11 +34,14 @@ class Inventory extends Component {
     this.handleActualPrice = this.handleActualPrice.bind(this);
     this.handleQuantity = this.handleQuantity.bind(this);
     this.handleSnackbar = this.handleSnackbar.bind(this);
+    this.searchProduct = this.searchProduct.bind(this);
+    this.searchProductByBarcode=this.searchProductByBarcode.bind(this);
   }
   componentWillMount() {
     var url = HOST + `/api/inventory/products`;
     axios.get(url).then(response => {
       this.setState({ products: response.data });
+      
     });
   }
   handleNewProduct = e => {
@@ -76,6 +82,33 @@ class Inventory extends Component {
     }
     
   };
+
+  searchProduct(event){
+    if(event.target.value){
+      var searchProductList=[]
+      this.state.products.map(value=>{
+        if(value.name.search(event.target.value)>=0){
+          searchProductList.push(value)
+        }
+      })
+      this.setState({productsDuplicate:searchProductList})
+    }else{
+      this.setState({productsDuplicate:[]})
+    }
+  }
+  searchProductByBarcode(event){
+    if(event.target.value){
+      var searchProductList=[]
+      this.state.products.map(value=>{
+        if(value.bar_code.search(event.target.value)>=0){
+          searchProductList.push(value)
+        }
+      })
+      this.setState({productsDuplicate:searchProductList})
+    }else{
+      this.setState({productsDuplicate:[]})
+    }
+  }
   handleEditProduct = editProduct => {
     axios
       .put(HOST + `/api/inventory/product`, editProduct)
@@ -117,15 +150,17 @@ class Inventory extends Component {
 
   render() {
     
-    var { products, snackMessage } = this.state;
+    var { products, snackMessage,productsDuplicate } = this.state;
     var user = this.props.user
 
     var renderProducts = () => {
-      if (products.length === 0) {
-        return <tr>{products}</tr>;
+      if (productsDuplicate.length !== 0) {
+        return productsDuplicate.map(product => (
+          <Product key={product.bar_code}  {...product} user={user} onEditProduct={this.handleEditProduct} />
+        ));
       } else {
         return products.map(product => (
-          <Product {...product} user={user} onEditProduct={this.handleEditProduct} />
+          <Product key={product.bar_code} {...product} user={user} onEditProduct={this.handleEditProduct} />
         ));
       }
     };
@@ -157,8 +192,13 @@ class Inventory extends Component {
           
           <br />
           <br />
-
-          <Table striped bordered hover>
+          <div className="text-center" style={{paddingBottom:10}}>
+          <input  type="text" id="myInput" className="form-control" style={{width:500,display:"inline",paddingBottom:10}}  placeholder="BarCode" aria-label="Search" onChange={this.searchProductByBarcode}  />
+          <br/>
+          <input  type="text" id="myInput1"  className="form-control" style={{width:500,display:"inline"}}  placeholder="Name" aria-label="Search" onChange={this.searchProduct}   />
+          
+          </div>
+          <Table striped bordered hover style={{paddingTop:10}}>
             <thead className="thead-dark">
               <tr>
                 <th scope="col">Name</th>
