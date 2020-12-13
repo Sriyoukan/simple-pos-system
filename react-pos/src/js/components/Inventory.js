@@ -192,10 +192,10 @@ class Inventory extends Component {
           
           <br />
           <br />
-          <div className="text-center" style={{paddingBottom:10}}>
+          <div style={{paddingBottom:10}} className="text-center">
           <input  type="text" id="myInput" className="form-control" style={{width:500,display:"inline",paddingBottom:10}}  placeholder="BarCode" aria-label="Search" onChange={this.searchProductByBarcode}  />
-          <br/>
-          <input  type="text" id="myInput1"  className="form-control" style={{width:500,display:"inline"}}  placeholder="Name" aria-label="Search" onChange={this.searchProduct}   />
+          
+          <input  type="text" id="myInput1"  className="form-control" style={{width:500,display:"inline",paddingBottom:10}}  placeholder="Name" aria-label="Search" onChange={this.searchProduct}   />
           
           </div>
           <Table striped bordered hover style={{paddingTop:10}}>
