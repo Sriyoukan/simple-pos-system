@@ -141,8 +141,9 @@ class Transactions extends Component {
                 
                 <div className="text-center" style={{borderStyle:"solid",borderWidth:2}}>
                   <span ><h3><b>Total</b> =  {this.state.total} Rs</h3></span>
-                  <span><h3><b>ActualTotal</b> =  {this.state.actualTotal} Rs</h3></span>
-                  <span><h3><b>Benifit</b> =  {this.state.total-this.state.actualTotal} Rs</h3></span>
+                  {this.props.user?this.props.user.userType==="owner"?<div>
+                    <span><h3><b>ActualTotal</b> =  {this.state.actualTotal} Rs</h3></span>
+                    <span><h3><b>Benifit</b> =  {this.state.total-this.state.actualTotal} Rs</h3></span></div>:null:null}
                 </div>
                 
             

@@ -21,7 +21,7 @@ const Main = ({user,logout=f=>f}) => (
           <Pos />
         </Tab>
         <Tab eventKey="Transactions" title="Transactions" >
-          <Transactions />
+          <Transactions user={user} />
         </Tab>
         {user?user.userType=='owner'?<Tab eventKey="RegisterUser" title="RegisterUser" >
           <RegisterUser />
