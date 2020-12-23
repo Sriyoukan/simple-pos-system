@@ -19,15 +19,21 @@ var User = new Datastore({
 
 app.post("/newUser", function(req, res) {
     var newUser = req.body;
-    
-    User.insert(newUser, function(err, data) {
-      if (err) res.status(500).send(err);
-      else {
-        
-        res.sendStatus(200);
-        
+    User.findOne({username:newUser.username},(err,data)=>{
+      if (data==null){
+        User.insert(newUser, function(err, data) {
+          if (err) res.status(500).send(err);
+          else {
+            res.send(true)
+          }
+        });
+
+      }else{
+        res.json(false);
       }
-    });
+    })
+    
+    
   });
 app.post('/login',(req,res)=>{
     User.findOne({username:req.body.username},(err,data)=>{
@@ -42,4 +48,13 @@ app.post('/login',(req,res)=>{
             }
         }
     })
+})
+
+app.get('/user',(req,res)=>{
+  User.find({},(err,data)=>{
+    if(err){
+      res.send(err)
+    }
+    res.status(200).json(data)
+  })
 })

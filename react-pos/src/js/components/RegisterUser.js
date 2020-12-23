@@ -5,10 +5,16 @@ import axios from "axios";
 
 
 export default function RegisterUser(){
-
+    const HOST = "http://localhost:8001";
     const [username,setUsername] = useState(null)
     const [password,setPassword] = useState(null)
     const [successModal,setSuccessModal] = useState(false)
+    const [failureModal,setFailureModal] = useState(false)
+
+    
+ 
+    
+
 
       function validateForm() {
         return (
@@ -26,8 +32,9 @@ export default function RegisterUser(){
               password:password,
               userType:"laber"
           }
+                    
         var  response = await axios.post('http://localhost:8001/newUser',user)
-        response?setSuccessModal(true):false
+        response.data?setSuccessModal(true):setFailureModal(true)
 
       }
       const handleKeypress = e => {
@@ -52,6 +59,22 @@ export default function RegisterUser(){
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={() => {setSuccessModal(false);setPassword("");setUsername("")}}>
+              close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <Modal show={failureModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>SignUp Status</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h3>
+              Cant't signedUp!
+            </h3>
+            
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={() => {setFailureModal(false);setPassword("");setUsername("")}}>
               close
             </Button>
           </Modal.Footer>
