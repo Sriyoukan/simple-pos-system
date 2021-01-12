@@ -13,7 +13,7 @@ console.log("Server started");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.all("/*", function(req, res, next) {
+app.all("/api/*", function(req, res, next) {
   // CORS headers
   res.header("Access-Control-Allow-Origin", "*"); // restrict it to the required domain
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
@@ -29,13 +29,13 @@ app.all("/*", function(req, res, next) {
   }
 });
 
-app.get("/", function(req, res) {
+app.get("/api", function(req, res) {
   res.send(" Real time POS web app running.");
 });
 
 app.use("/api/inventory", require("./api/inventory"));
-app.use("/api", require("./api/transactions"));
-app.use(require("./api/user"));
+app.use("/api/transactions", require("./api/transactions"));
+app.use("/api/user",require("./api/user"));
 
 // Websocket logic for Live Cart
 io.on("connection", function(socket) {
