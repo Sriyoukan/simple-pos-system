@@ -12,7 +12,7 @@ import { isWidthDown } from "@material-ui/core";
 import Suggesion from "./Suggesion";
 
 const HOST = "http://localhost:8001";
-const newHost = "https://kcmotorspareparts.online"
+const newHost = "http://kcmotorspareparts.online"
 
 let socket = io.connect(HOST);
 

@@ -3,7 +3,7 @@ import { Modal, Button } from "react-bootstrap";
 import TransactionDetail from "./TransactionDetail";
 import axios from "axios";
 const HOST = "http://localhost:8001";
-const newHost = "https://kcmotorspareparts.online"
+const newHost = "http://kcmotorspareparts.online"
 
 class CompleteTransactions extends Component {
   constructor(props) {

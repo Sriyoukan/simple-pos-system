@@ -6,7 +6,7 @@ import axios from "axios";
 import Header from "./Header";
 
 const HOST = "http://localhost:8001";
-const newHost = "https://kcmotorspareparts.online"
+const newHost = "http://kcmotorspareparts.online"
 
 
 export default function Login({authUser=f=>f}) {
