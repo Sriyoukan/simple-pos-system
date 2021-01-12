@@ -7,7 +7,7 @@ import { Modal, Button ,Table} from "react-bootstrap";
 
 
 const HOST = "http://localhost:8001";
-const newHost = "http://kcmotorspareparts.online"
+const newHost = "https://kcmotorspareparts.online"
 
 class Inventory extends Component {
   constructor(props) {
