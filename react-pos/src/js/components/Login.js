@@ -6,6 +6,8 @@ import axios from "axios";
 import Header from "./Header";
 
 const HOST = "http://localhost:8001";
+const newHost = "http://kcmotorspareparts.online"
+
 
 export default function Login({authUser=f=>f}) {
   const [username, setUsername] = useState("");
@@ -22,7 +24,7 @@ export default function Login({authUser=f=>f}) {
       username:username,
       password:password
     }
-   axios.post(HOST+"/login",userNew)
+   axios.post(newHost+"/login",userNew)
    .then((response)=>{
     localStorage.setItem('currentUser',JSON.stringify(response.data))
     authUser(response.data);

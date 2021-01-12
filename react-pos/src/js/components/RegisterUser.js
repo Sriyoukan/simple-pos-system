@@ -6,6 +6,8 @@ import axios from "axios";
 
 export default function RegisterUser(){
     const HOST = "http://localhost:8001";
+    const newHost = "http://kcmotorspareparts.online"
+
     const [username,setUsername] = useState(null)
     const [password,setPassword] = useState(null)
     const [successModal,setSuccessModal] = useState(false)
@@ -33,7 +35,7 @@ export default function RegisterUser(){
               userType:"laber"
           }
                     
-        var  response = await axios.post('http://localhost:8001/newUser',user)
+        var  response = await axios.post(`${newHost}/newUser`,user)
         response.data?setSuccessModal(true):setFailureModal(true)
 
       }

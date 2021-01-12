@@ -8,7 +8,9 @@ import LiveTransactions from "./LiveTransactions";
 import moment from "moment";
 
 const HOST = "http://localhost:8001";
-var url = HOST + `/api/all`;
+const newHost = "http://kcmotorspareparts.online"
+
+var url = newHost + `/api/all`;
 var socket = io.connect(HOST);
 class LiveCart extends Component {
   constructor(props) {

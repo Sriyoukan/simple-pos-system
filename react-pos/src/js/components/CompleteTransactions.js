@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Modal, Button } from "react-bootstrap";
 import TransactionDetail from "./TransactionDetail";
 import axios from "axios";
+const HOST = "http://localhost:8001";
+const newHost = "http://kcmotorspareparts.online"
 
 class CompleteTransactions extends Component {
   constructor(props) {
@@ -16,7 +18,7 @@ class CompleteTransactions extends Component {
   }
   async deleteTransaction(id){
     const removeFromList = this.props.removeFromList
-    var response =axios.delete(`http://localhost:8001/api/${id}`)
+    var response =axios.delete(`${newHost}/api/${id}`)
     var newTransactions = removeFromList(id)
     const handleTransaction = this.props.handleTransactions
     handleTransaction(newTransactions)
