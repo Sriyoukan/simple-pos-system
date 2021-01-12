@@ -6,7 +6,7 @@ import axios from "axios";
 
 export default function RegisterUser(){
     const HOST = "http://localhost:8001";
-    const newHost = "http://kcmotorspareparts.online"
+    const newHost = "https://kcmotorspareparts.online"
 
     const [username,setUsername] = useState(null)
     const [password,setPassword] = useState(null)
