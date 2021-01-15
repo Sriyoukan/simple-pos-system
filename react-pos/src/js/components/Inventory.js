@@ -6,8 +6,8 @@ import axios from "axios";
 import { Modal, Button ,Table} from "react-bootstrap";
 
 
-const HOST = "http://localhost:8001";
-const newHost = "https://kcmotorspareparts.online"
+const HOST = "http://localhost:8001/api";
+const newHost = "http://kcmotorspareparts.online/api"
 
 class Inventory extends Component {
   constructor(props) {
@@ -39,7 +39,7 @@ class Inventory extends Component {
     this.searchProductByBarcode=this.searchProductByBarcode.bind(this);
   }
   componentWillMount() {
-    var url = newHost + `/api/inventory/products`;
+    var url = newHost + `/inventory/products`;
     axios.get(url).then(response => {
       this.setState({ products: response.data });
       
@@ -67,7 +67,7 @@ class Inventory extends Component {
       };
   
       axios
-        .post(newHost + `/api/inventory/product`, newProduct)
+        .post(newHost + `/inventory/product`, newProduct)
         .then(
           response =>
             this.setState({ snackMessage: "Product Added Successfully!" }),
@@ -112,7 +112,7 @@ class Inventory extends Component {
   }
   handleEditProduct = editProduct => {
     axios
-      .put(newHost + `/api/inventory/product`, editProduct)
+      .put(newHost + `/inventory/product`, editProduct)
       .then(response => {
         this.setState({ snackMessage: "Product Updated Successfully!" });
         this.handleSnackbar();

@@ -5,8 +5,8 @@ import "./Login.css";
 import axios from "axios";
 import Header from "./Header";
 
-const HOST = "http://localhost:8001";
-const newHost = "https://kcmotorspareparts.online"
+const HOST = "http://localhost:8001/api";
+const newHost = "http://kcmotorspareparts.online/api"
 
 
 export default function Login({authUser=f=>f}) {
