@@ -7,8 +7,8 @@ import RecentTransactions from "./RecentTransactions";
 import LiveTransactions from "./LiveTransactions";
 import moment from "moment";
 
-const HOST = "http://localhost:8001/api";
-const newHost = "http://kcmotorspareparts.online/api"
+const HOST = "http://localhost:8001/api/transactions";
+const newHost = "http://kcmotorspareparts.online/api/transactions"
 
 var url = newHost + `/all`;
 var socket = io.connect(HOST);

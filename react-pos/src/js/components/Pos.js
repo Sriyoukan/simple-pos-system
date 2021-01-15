@@ -227,7 +227,7 @@ class Pos extends Component {
       items: this.state.items,
       totalPayment: this.state.totalPayment
     };
-    axios.post(newHost + "/new", transaction).catch(err => {
+    axios.post(newHost + "/transactions/new", transaction).catch(err => {
       console.log(err);
     });
   };

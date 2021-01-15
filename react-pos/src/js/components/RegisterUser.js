@@ -5,8 +5,8 @@ import axios from "axios";
 
 
 export default function RegisterUser(){
-    const HOST = "http://localhost:8001/api";
-    const newHost = "http://kcmotorspareparts.online/api"
+    const HOST = "http://localhost:8001/api/user";
+    const newHost = "http://kcmotorspareparts.online/api/user"
 
     const [username,setUsername] = useState(null)
     const [password,setPassword] = useState(null)
