@@ -69,7 +69,7 @@ app.delete("/product/:productId", function(req, res) {
 });
 app.post("/product/delete", function(req, res) {
   inventoryDB.remove({ name: req.body.name }, function(err, data) {
-    console.log("sri")
+    
     if (err) res.status(500).send(err);
     else res.sendStatus(200);
     

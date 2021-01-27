@@ -50,6 +50,13 @@ app.post('/login',(req,res)=>{
     })
 })
 
+app.post('/deleteUser',(req,res)=>{
+  User.remove({username:req.body.username},(err,data)=>{
+    if (err) res.status(500).send(err);
+    else res.sendStatus(200);
+  })
+})
+
 app.get('/user',(req,res)=>{
   User.find({},(err,data)=>{
     if(err){

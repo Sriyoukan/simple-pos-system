@@ -1,10 +1,2 @@
-{"name":"break","bar_code":"1234","quantity":7,"price":"300","actualPrice":"100","_id":"01ZyJcxphA6OnROs"}
-{"name":"kaerb","bar_code":"0987","quantity":"34","price":"230","actualPrice":"30","_id":"SV07s8Oe1XKeuQRR"}
-{"name":"break","bar_code":"1234","quantity":6,"price":"300","actualPrice":"100","_id":"01ZyJcxphA6OnROs"}
-{"name":"break","bar_code":"1234","quantity":5,"price":"300","actualPrice":"100","_id":"01ZyJcxphA6OnROs"}
-{"name":"kaerb","bar_code":"0987","quantity":33,"price":"230","actualPrice":"30","_id":"SV07s8Oe1XKeuQRR"}
-{"name":"break_cable","bar_code":"345676","quantity":"24","price":"345","actualPrice":"125","_id":"ndkUPqliHXxX9rha"}
-{"$$deleted":true,"_id":"ndkUPqliHXxX9rha"}
-{"name":"break","bar_code":"1234","quantity":6,"price":"300","actualPrice":"100","_id":"01ZyJcxphA6OnROs"}
 {"name":"break","bar_code":"1234","quantity":5,"price":"300","actualPrice":"100","_id":"01ZyJcxphA6OnROs"}
 {"name":"kaerb","bar_code":"0987","quantity":32,"price":"230","actualPrice":"30","_id":"SV07s8Oe1XKeuQRR"}

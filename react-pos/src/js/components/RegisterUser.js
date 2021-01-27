@@ -13,6 +13,7 @@ export default  function RegisterUser(){
     const [successModal,setSuccessModal] = useState(false)
     const [failureModal,setFailureModal] = useState(false)
     const [users,setUsers] = useState([])
+    const [deleteModal,setDeleteModal] = useState(false)
 
   
     async function  getUsers(){
@@ -22,7 +23,12 @@ export default  function RegisterUser(){
 
     getUsers()
 
-
+    function deleteUser(username){
+      axios.post(newHost+'/deleteUser',{username:username})
+      .then(resolve=>{
+        getUsers()
+      })
+    }
 
     
     
@@ -135,7 +141,7 @@ export default  function RegisterUser(){
                   <h3>{data.username}</h3>
                 </div>
                 { data.userType == 'laber'?
-                  <Button style={{marginLeft:'20px',marginTop:'15px',float:'left'}} className="btn btn-danger"  size="lg" >Delete</Button>:null
+                  <Button style={{marginLeft:'20px',marginTop:'15px',float:'left'}} className="btn btn-danger"  size="lg" onClick={()=>{deleteUser(data.username)}} >Delete</Button>:null
                 }
               </li>))}
           </ul>

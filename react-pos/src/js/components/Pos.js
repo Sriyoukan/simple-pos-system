@@ -14,7 +14,7 @@ import Suggesion from "./Suggesion";
 const HOST = "http://localhost:8001/api";
 const newHost = "http://kcmotorspareparts.online/api"
 
-let socket = io.connect(newHost);
+let socket = io.connect(HOST);
 
 class Pos extends Component {
   constructor(props) {
