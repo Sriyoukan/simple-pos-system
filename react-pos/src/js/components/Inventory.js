@@ -37,9 +37,10 @@ class Inventory extends Component {
     this.handleSnackbar = this.handleSnackbar.bind(this);
     this.searchProduct = this.searchProduct.bind(this);
     this.searchProductByBarcode=this.searchProductByBarcode.bind(this);
+    this.handleDeleteProduct = this.handleDeleteProduct.bind(this);
   }
   componentWillMount() {
-    var url = newHost + `/products`;
+    var url = HOST + `/products`;
     axios.get(url).then(response => {
       this.setState({ products: response.data });
       
@@ -67,7 +68,7 @@ class Inventory extends Component {
       };
   
       axios
-        .post(newHost + `/product`, newProduct)
+        .post(HOST + `/product`, newProduct)
         .then(
           response =>
             this.setState({ snackMessage: "Product Added Successfully!" }),
@@ -112,7 +113,7 @@ class Inventory extends Component {
   }
   handleEditProduct = editProduct => {
     axios
-      .put(newHost + `/product`, editProduct)
+      .put(HOST + `/product`, editProduct)
       .then(response => {
         this.setState({ snackMessage: "Product Updated Successfully!" });
         this.handleSnackbar();
@@ -148,6 +149,13 @@ class Inventory extends Component {
       bar.className = bar.className.replace("show", "");
     }, 3000);
   };
+  handleDeleteProduct=(name_of_product)=>{
+      var delName = {name:name_of_product}
+      axios.post(HOST+'/product/delete',delName)
+      .then(data=>{
+        this.componentWillMount()
+      })
+  }
 
   render() {
     
@@ -157,11 +165,11 @@ class Inventory extends Component {
     var renderProducts = () => {
       if (productsDuplicate.length !== 0) {
         return productsDuplicate.map(product => (
-          <Product key={product.bar_code}  {...product} user={user} onEditProduct={this.handleEditProduct} />
+          <Product key={product.bar_code}  {...product} user={user} onEditProduct={this.handleEditProduct} onDelete={this.handleDeleteProduct} />
         ));
       } else {
         return products.map(product => (
-          <Product key={product.bar_code} {...product} user={user} onEditProduct={this.handleEditProduct} />
+          <Product key={product.bar_code} {...product} user={user} onEditProduct={this.handleEditProduct} onDelete={this.handleDeleteProduct}/>
         ));
       }
     };
@@ -207,7 +215,8 @@ class Inventory extends Component {
                 <th scope="col">Price</th>
                 <th scope="col">Actual_Price</th>
                 <th scope="col">Quantity on Hand</th>
-                <th />
+                
+                
               </tr>
             </thead>
             <tbody>{renderProducts()}</tbody>

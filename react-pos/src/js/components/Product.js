@@ -10,7 +10,9 @@ class Product extends Component {
       price: 0,
       quantity: 0,
       productModal: false,
-      actualPrice:0
+      actualPrice:0,
+      deleteModal:false,
+      deleteName:''
     };
   }
   componentDidMount() {
@@ -62,6 +64,10 @@ class Product extends Component {
     this.setState({ price: this.state.newPrice });
     this.setState({actualPrice:this.state.newActualPrice})
   };
+
+  deleteProduct(){
+    this.props.onDelete(this.state.deleteName);
+  }
   render() {
     const {
       newName,
@@ -90,7 +96,7 @@ class Product extends Component {
            <td>
            <a
              className="btn btn-info"
-             onClick={() => this.setState({ productModal: true })}
+             onClick={() => {this.setState({ productModal: true })}}
            >
              <i className="glyphicon glyphicon-pencil" />
            </a>
@@ -99,6 +105,30 @@ class Product extends Component {
               
               
           }
+          {
+            user.userType === 'owner' ? 
+          <td>
+          <a
+            className="btn btn-info"
+            onClick={()=>{this.setState({deleteName:name});this.setState({deleteModal:true})}}
+          >
+            <i className="glyphicon glyphicon-remove-sign" />
+          </a>
+        </td>: null
+  }
+        <Modal show={this.state.deleteModal}>
+          <Modal.Body>
+            Want to delete??
+          </Modal.Body>
+          <Modal.Footer>
+            <Button className="btn btn-danger" onClick={() => {this.deleteProduct();this.setState({ deleteModal: false })}}>
+              delete
+            </Button>
+            <Button onClick={() => {this.setState({ deleteModal: false })}}>
+              cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
          
          
         

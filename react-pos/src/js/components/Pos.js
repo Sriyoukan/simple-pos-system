@@ -59,7 +59,7 @@ class Pos extends Component {
   }
 
   componentWillMount() {
-    var url = newHost + `/inventory/products`;
+    var url = HOST + `/inventory/products`;
     axios.get(url).then(response => {
       this.setState({ products: response.data });
     });
@@ -80,7 +80,7 @@ class Pos extends Component {
   };
   handleBarCodeSubmit = () => {
     axios
-    .get(newHost + `/inventory/product/${this.state.bar_code}`)
+    .get(HOST + `/inventory/product/${this.state.bar_code}`)
     .then(response=>{
       if(response.data && response.data.quantity){
         const currentItem = {
@@ -227,7 +227,7 @@ class Pos extends Component {
       items: this.state.items,
       totalPayment: this.state.totalPayment
     };
-    axios.post(newHost + "/transactions/new", transaction).catch(err => {
+    axios.post(HOST + "/transactions/new", transaction).catch(err => {
       console.log(err);
     });
   };
@@ -399,7 +399,9 @@ class Pos extends Component {
               <br/>
               <input  type="text" id="myInput1" value={this.state.name} className="form-control" style={{width:500,display:"inline"}}  placeholder="Name" aria-label="Search" onChange={this.handleDynamicSearch} onKeyPress={this.keyPressed1} />
               <button type="submit" id="myButton1" className="btn btn-success" style={{marginBottom:3}} onClick={this.handleNameSubmit}>Enter</button>
+              <div>
               <Suggesion  results={this.state.searchProduct} setProduct={this.setProduct}/>
+              </div>
               
             </div>
             

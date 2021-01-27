@@ -4,7 +4,7 @@ import axios from "axios";
 
 
 
-export default function RegisterUser(){
+export default  function RegisterUser(){
     const HOST = "http://localhost:8001/api/user";
     const newHost = "http://kcmotorspareparts.online/api/user"
 
@@ -12,9 +12,20 @@ export default function RegisterUser(){
     const [password,setPassword] = useState(null)
     const [successModal,setSuccessModal] = useState(false)
     const [failureModal,setFailureModal] = useState(false)
+    const [users,setUsers] = useState([])
+
+  
+    async function  getUsers(){
+      var response = await axios.get(HOST+'/user')
+      setUsers(response.data)
+    }
+
+    getUsers()
+
+
 
     
- 
+    
     
 
 
@@ -35,7 +46,7 @@ export default function RegisterUser(){
               userType:"laber"
           }
                     
-        var  response = await axios.post(`${newHost}/newUser`,user)
+        var  response = await axios.post(`${HOST}/newUser`,user)
         response.data?setSuccessModal(true):setFailureModal(true)
 
       }
@@ -48,7 +59,8 @@ export default function RegisterUser(){
     };
 
       return(
-        <div style={{paddingLeft:30,paddingRight:30,paddingTop:100,width:500}}>
+        <div>
+        <div style={{paddingLeft:30,paddingTop:100,width:500,float:'left' }}>
         <Modal show={successModal}>
           <Modal.Header closeButton>
             <Modal.Title>SignUp Status</Modal.Title>
@@ -112,9 +124,23 @@ export default function RegisterUser(){
         >
           Signup
         </Button>
-        </Form>
-        
-        </div>
+        </Form> 
+      </div>      
+      <div style={{paddingTop:20,paddingBottom:20,width:600,float:'left',border:'0.1px solid gray',marginLeft:'90px',marginTop:'90px'}}>
+        <ul style={{listStyleType:'none'}}>
+            {users.map((data,i)=>(
+            
+              <li key={i}>
+                <div style={{border:'0.05px solid gray',borderRadius:1,width:"300px",height:"60px", boxShadow:'1px 1px 1px #808080',backgroundColor:'#FFFFFFFF',textAlign:'center',marginBottom:'10px',float:'left'}}>
+                  <h3>{data.username}</h3>
+                </div>
+                { data.userType == 'laber'?
+                  <Button style={{marginLeft:'20px',marginTop:'15px',float:'left'}} className="btn btn-danger"  size="lg" >Delete</Button>:null
+                }
+              </li>))}
+          </ul>
+      </div>
+      </div>
       );
 
 

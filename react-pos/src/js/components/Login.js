@@ -24,10 +24,10 @@ export default function Login({authUser=f=>f}) {
       username:username,
       password:password
     }
-   axios.post(newHost+"/login",userNew)
+   axios.post(HOST+"/login",userNew)
    .then((response)=>{
-    localStorage.setItem('currentUser',JSON.stringify(response.data))
-    authUser(response.data);
+      localStorage.setItem('currentUser',JSON.stringify(response.data))
+      authUser(response.data);
     })
    .catch(err=>{
     setResponseUser(true)
@@ -47,8 +47,8 @@ export default function Login({authUser=f=>f}) {
 
   return (
 
-     
-    <div className="Login">
+    
+    <div className="Login" style={{border:'0.05px solid gray',borderRadius:15,width:"600px",height:500,position:"absolute", margin:"auto",top: 10,right: 0,bottom: 0,left: 0,boxShadow:'5px 10px 20px #808080',backgroundColor:'#FFFFFFFF'}}>
       <Modal show={resposeUser}>
         <Modal.Body>
           User name or password is incorrect
@@ -57,8 +57,10 @@ export default function Login({authUser=f=>f}) {
           <Button autoFocus onClick={()=>setResponseUser(false)}>Ok</Button>
         </Modal.Footer>
       </Modal>
-      <Header/> 
-      <Form onSubmit={handleSubmit}>
+      <h1 style={{textAlign:'center'}}>Login</h1>
+      
+      <Form style={{marginTop:50}} onSubmit={handleSubmit} >
+        
         <FormGroup size="lg" controlId="username">
           <label>UserName</label>
           <FormControl
@@ -76,10 +78,12 @@ export default function Login({authUser=f=>f}) {
             onChange={(e) => setPassword(e.target.value)}
           />
         </FormGroup>
-        <Button className="btn btn-success pull-right" size="lg" type="submit" disabled={!validateForm()} onClick={handleSubmit}>
+        <button className="btn btn-dark btn-lg btn-block" type="submit" disabled={!validateForm()} onClick={handleSubmit}>
           Login
-        </Button>
+        </button>
       </Form>
+      
     </div>
+    
   );
 }

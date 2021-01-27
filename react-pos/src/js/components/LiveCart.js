@@ -10,7 +10,7 @@ import moment from "moment";
 const HOST = "http://localhost:8001/api/transactions";
 const newHost = "http://kcmotorspareparts.online/api/transactions"
 
-var url = newHost + `/all`;
+var url = HOST + `/all`;
 var socket = io.connect(HOST);
 class LiveCart extends Component {
   constructor(props) {
