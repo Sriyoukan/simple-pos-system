@@ -22,7 +22,7 @@ import VerticalTabs from './VerticalTabs';
 const HOST = "http://localhost:8001";
 const newHost = "https://kcmotorspareparts.online"
 
-const url = HOST + `/api/transactions/all`;
+const url = newHost + `/api/transactions/all`;
 
 
 

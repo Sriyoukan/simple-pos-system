@@ -24,7 +24,7 @@ export default function Login({authUser=f=>f}) {
       username:username,
       password:password
     }
-   axios.post(HOST+"/login",userNew)
+   axios.post(newHost+"/login",userNew)
    .then((response)=>{
       localStorage.setItem('currentUser',JSON.stringify(response.data))
       authUser(response.data);

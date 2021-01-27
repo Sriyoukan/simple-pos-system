@@ -16,7 +16,7 @@ export default  function RegisterUser(){
 
   
     async function  getUsers(){
-      var response = await axios.get(HOST+'/user')
+      var response = await axios.get(newHost+'/user')
       setUsers(response.data)
     }
 
@@ -46,7 +46,7 @@ export default  function RegisterUser(){
               userType:"laber"
           }
                     
-        var  response = await axios.post(`${HOST}/newUser`,user)
+        var  response = await axios.post(`${newHost}/newUser`,user)
         response.data?setSuccessModal(true):setFailureModal(true)
 
       }

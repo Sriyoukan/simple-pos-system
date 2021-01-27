@@ -14,7 +14,7 @@ import Suggesion from "./Suggesion";
 const HOST = "http://localhost:8001/api";
 const newHost = "http://kcmotorspareparts.online/api"
 
-let socket = io.connect(HOST);
+let socket = io.connect(newHost);
 
 class Pos extends Component {
   constructor(props) {
@@ -59,7 +59,7 @@ class Pos extends Component {
   }
 
   componentWillMount() {
-    var url = HOST + `/inventory/products`;
+    var url = newHost + `/inventory/products`;
     axios.get(url).then(response => {
       this.setState({ products: response.data });
     });
@@ -80,7 +80,7 @@ class Pos extends Component {
   };
   handleBarCodeSubmit = () => {
     axios
-    .get(HOST + `/inventory/product/${this.state.bar_code}`)
+    .get(newHost + `/inventory/product/${this.state.bar_code}`)
     .then(response=>{
       if(response.data && response.data.quantity){
         const currentItem = {
@@ -227,7 +227,7 @@ class Pos extends Component {
       items: this.state.items,
       totalPayment: this.state.totalPayment
     };
-    axios.post(HOST + "/transactions/new", transaction).catch(err => {
+    axios.post(newHost + "/transactions/new", transaction).catch(err => {
       console.log(err);
     });
   };

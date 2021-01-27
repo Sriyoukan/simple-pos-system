@@ -40,7 +40,7 @@ class Inventory extends Component {
     this.handleDeleteProduct = this.handleDeleteProduct.bind(this);
   }
   componentWillMount() {
-    var url = HOST + `/products`;
+    var url = newHost + `/products`;
     axios.get(url).then(response => {
       this.setState({ products: response.data });
       
@@ -68,7 +68,7 @@ class Inventory extends Component {
       };
   
       axios
-        .post(HOST + `/product`, newProduct)
+        .post(newHost + `/product`, newProduct)
         .then(
           response =>
             this.setState({ snackMessage: "Product Added Successfully!" }),
@@ -113,7 +113,7 @@ class Inventory extends Component {
   }
   handleEditProduct = editProduct => {
     axios
-      .put(HOST + `/product`, editProduct)
+      .put(newHost + `/product`, editProduct)
       .then(response => {
         this.setState({ snackMessage: "Product Updated Successfully!" });
         this.handleSnackbar();
@@ -151,7 +151,7 @@ class Inventory extends Component {
   };
   handleDeleteProduct=(name_of_product)=>{
       var delName = {name:name_of_product}
-      axios.post(HOST+'/product/delete',delName)
+      axios.post(newHost+'/product/delete',delName)
       .then(data=>{
         this.componentWillMount()
       })
