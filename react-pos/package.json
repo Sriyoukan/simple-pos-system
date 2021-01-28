@@ -1,6 +1,5 @@
 {
   "name": "react-pos",
-  "homepage": "http://pos-react.kcmotorspareparts.online/main",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
